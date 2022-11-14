@@ -1,4 +1,4 @@
-# Go Azam
+# Go Azam Pay
 
 A golang wrapper for Azam Payment Gateway. Still a work in progress.
 
