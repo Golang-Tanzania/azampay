@@ -2,7 +2,7 @@
 
 A golang wrapper for Azam Payment Gateway. Still a work in progress.
 
-```
+```go
 package main
 
 import (
