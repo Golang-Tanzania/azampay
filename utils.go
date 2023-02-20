@@ -103,7 +103,7 @@ func (api *APICONTEXT) LoadKeys(file string) *APICONTEXT {
 	return api
 }
 
-func (api *APICONTEXT) sendRequest(endpoint string, query map[string]string) string {
+func (api *APICONTEXT) sendRequest(baseURL, endpoint string, query map[string]string) string {
 
 	jsonParameters, err := json.Marshal(query)
 
@@ -111,9 +111,44 @@ func (api *APICONTEXT) sendRequest(endpoint string, query map[string]string) str
 		fmt.Println(err)
 	}
 
-	url := api.BaseURL + endpoint
+	url := baseURL + endpoint
 
 	req, err := http.NewRequest("POST", url, bytes.NewBuffer([]byte(jsonParameters)))
+
+	bearer := fmt.Sprintf("Bearer %v", api.Bearer)
+
+	req.Header.Set("Authorization", bearer)
+	req.Header.Set("X-API-KEY", api.Token)
+	req.Header.Set("Content-Type", "application/json")
+
+	if err != nil {
+		return err.Error()
+	}
+
+	client := &http.Client{}
+
+	resp, err := client.Do(req)
+
+	if err != nil {
+		return err.Error()
+	}
+
+	defer resp.Body.Close()
+
+	body, err := io.ReadAll(resp.Body)
+
+	if err != nil {
+		return err.Error()
+	}
+
+	return string(body)
+}
+
+func (api *APICONTEXT) getRequest(baseURL, endpoint string) string {
+
+	url := baseURL + endpoint
+
+	req, err := http.NewRequest("GET", url, nil)
 
 	bearer := fmt.Sprintf("Bearer %v", api.Bearer)
 
