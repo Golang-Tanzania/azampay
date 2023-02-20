@@ -9,6 +9,11 @@ import (
 	"net/http"
 )
 
+const (
+	BaseURL         = "https://sandbox.azampay.co.tz"
+	RegistrationURL = "https://authenticator-sandbox.azampay.co.tz/AppRegistration/GenerateToken"
+)
+
 type APICONTEXT struct {
 	AppName      string
 	ClientID     string
@@ -25,13 +30,16 @@ type kEYS struct {
 	Token        string
 }
 
-func (api *APICONTEXT) generateSessionID() string {
-	api.BaseURL = "https://sandbox.azampay.co.tz"
-	endpoint := "/AppRegistration/GenerateToken"
-	url := fmt.Sprintf("https://authenticator-sandbox.azampay.co.tz%v", endpoint)
+func (api *APICONTEXT) GenerateSessionID() string {
+
+	api.BaseURL = BaseURL
+
 	parameters := fmt.Sprintf(`{"appName":"%v", "clientId": "%v", "clientSecret": "%v"}`, api.AppName, api.ClientID, api.ClientSecret)
-	req, err := http.NewRequest("POST", url, bytes.NewBuffer([]byte(parameters)))
+
+	req, err := http.NewRequest("POST", RegistrationURL, bytes.NewBuffer([]byte(parameters)))
+
 	req.Header.Set("Content-Type", "application/json")
+
 	if err != nil {
 		return err.Error()
 	}
@@ -58,7 +66,9 @@ func (api *APICONTEXT) generateSessionID() string {
 		Success    bool
 		StatusCode int
 	}
+
 	var result Result
+
 	json.Unmarshal([]byte(body), &result)
 
 	if result.Data["accessToken"] != "" {
@@ -94,16 +104,23 @@ func (api *APICONTEXT) LoadKeys(file string) *APICONTEXT {
 }
 
 func (api *APICONTEXT) sendRequest(endpoint string, query map[string]string) string {
+
 	jsonParameters, err := json.Marshal(query)
+
 	if err != nil {
 		fmt.Println(err)
 	}
+
 	url := api.BaseURL + endpoint
+
 	req, err := http.NewRequest("POST", url, bytes.NewBuffer([]byte(jsonParameters)))
-	req.Header.Set("Content-Type", "application/json")
+
 	bearer := fmt.Sprintf("Bearer %v", api.Bearer)
+
 	req.Header.Set("Authorization", bearer)
 	req.Header.Set("X-API-KEY", api.Token)
+	req.Header.Set("Content-Type", "application/json")
+
 	if err != nil {
 		return err.Error()
 	}
