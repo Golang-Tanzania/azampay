@@ -13,47 +13,47 @@ func main() {
 	transactionTester.LoadKeys("config.json")
 	transactionTester.GenerateSessionID()
 
-	// test mobile checkout
-	testMobileCheckout := make(map[string]string)
+	// example mobile checkout
+	exampleMobileCheckout := make(map[string]string)
 
-	testMobileCheckout["accountNumber"] = "0700000000"
-	testMobileCheckout["amount"] = "2000"
-	testMobileCheckout["currency"] = "TZS"
-	testMobileCheckout["externalId"] = "123"
-	testMobileCheckout["provider"] = "TIGO"
+	exampleMobileCheckout["accountNumber"] = "0700000000"
+	exampleMobileCheckout["amount"] = "2000"
+	exampleMobileCheckout["currency"] = "TZS"
+	exampleMobileCheckout["externalId"] = "123"
+	exampleMobileCheckout["provider"] = "TIGO"
 
-	fmt.Println(transactionTester.MobileCheckout(testMobileCheckout))
+	fmt.Println(transactionTester.MobileCheckout(exampleMobileCheckout))
 
-	// test bank checkout
-	testBankCheckout := make(map[string]string)
+	// example bank checkout
+	exampleBankCheckout := make(map[string]string)
 
-	testBankCheckout["amount"] = "10000"
-	testBankCheckout["currencyCode"] = "TZS"
-	testBankCheckout["merchantAccountNumber"] = "123321"
-	testBankCheckout["merchantMobileNumber"] = "0700000000"
-	testBankCheckout["otp"] = "1234"
-	testBankCheckout["provider"] = "CRDB"
-	testBankCheckout["ReferenceID"] = "123"
+	exampleBankCheckout["amount"] = "10000"
+	exampleBankCheckout["currencyCode"] = "TZS"
+	exampleBankCheckout["merchantAccountNumber"] = "123321"
+	exampleBankCheckout["merchantMobileNumber"] = "0700000000"
+	exampleBankCheckout["otp"] = "1234"
+	exampleBankCheckout["provider"] = "CRDB"
+	exampleBankCheckout["ReferenceID"] = "123"
 
-	fmt.Println(transactionTester.BankCheckout(testBankCheckout))
+	fmt.Println(transactionTester.BankCheckout(exampleBankCheckout))
 
-	// test Callback
+	// example Callback
 
-	testCallback := make(map[string]string)
+	exampleCallback := make(map[string]string)
 
-	testCallback["msisdn"] = "0178334"
-	testCallback["amount"] = "2000"
-	testCallback["message"] = "testing callback"
-	testCallback["utilityref"] = "1282-123"
-	testCallback["operator"] = "Airtel"
-	testCallback["reference"] = "123-123"
-	testCallback["transactionstatus"] = "success"
-	testCallback["submerchantAcc"] = "01723113"
+	exampleCallback["msisdn"] = "0178334"
+	exampleCallback["amount"] = "2000"
+	exampleCallback["message"] = "testing callback"
+	exampleCallback["utilityref"] = "1282-123"
+	exampleCallback["operator"] = "Airtel"
+	exampleCallback["reference"] = "123-123"
+	exampleCallback["transactionstatus"] = "success"
+	exampleCallback["submerchantAcc"] = "01723113"
 
-	testCallbackURL := "" // You need to set a webhook or fill provided URL
-	fmt.Println(transactionTester.Callback(testCallback, testCallbackURL))
+	exampleCallbackURL := "" // You need to set a webhook or fill provided URL
+	fmt.Println(transactionTester.Callback(exampleCallback, exampleCallbackURL))
 
-	// test Payment Partner
+	// example Payment Partner
 
 	fmt.Println(transactionTester.PaymentPartners())
 
