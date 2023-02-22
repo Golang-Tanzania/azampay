@@ -43,6 +43,9 @@ type (
 	}
 )
 
+// PostCheckout to function to get the post checkout URL.
+// It accepts a payload of type PostCheckoutPayload and
+// returns the checkout url as a string
 func (api *APICONTEXT) PostCheckout(postcheckoutpayload PostCheckoutPayload) (string, error) {
 
 	jsonParameters, err := json.Marshal(postcheckoutpayload)
