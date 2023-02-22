@@ -15,30 +15,31 @@ type (
 		Items map[string]string `json:"items"`
 	}
 
+	// Payload to be sent to the post checkout endpoint
 	PostCheckoutPayload struct {
-		// This is the amount that will be charged from the given account
+		// This is the amount that will be charged from the given account (required)
 		Amount string `json:"amount"`
-		// This is the application name
+		// This is the application name (required)
 		AppName string `json:"appName"`
-		// Shopping cat with multiple items
+		// Shopping cat with multiple items (required)
 		Cart Cart `json:"cart"`
-		// Unique identifier for the client
+		// Unique identifier for the client (required)
 		ClientID string `json:"clientId"`
-		// Currency code that will convert amount into specific current
+		// Currency code that will convert amount into specific current (required)
 		Currency string `json:"currency"`
-		// 30 character long unique string
+		// 30 character long unique string (required)
 		ExternalID string `json:"externalId"`
-		// Language code to translate the application
+		// Language code to translate the application (required)
 		Language string `json:"language"`
-		// URL that be redirected to upon transaction failure
+		// URL that be redirected to upon transaction failure (required)
 		RedirectFailURL string `json:"redirectFailURL"`
-		// URL to be directed to upon successful transaction
+		// URL to be directed to upon successful transaction (required)
 		RedirectSuccessURL string `json:"redirectSuccessURL"`
-		// URL which the request is being originated
+		// URL which the request is being originated (required)
 		RequestOrigin string `json:"requestOrigin"`
-		// Unique ID to validate vendor
+		// UUID to validate vendor (required)
 		VendorID string `json:"vendorId"`
-		// Name of the vendor
+		// Name of the vendor (required)
 		VendorName string `json:"vendorName"`
 	}
 )
@@ -94,7 +95,7 @@ func (api *APICONTEXT) PostCheckout(postcheckoutpayload PostCheckoutPayload) (st
 		var badRequest *BadRequestError
 
 		if err := json.NewDecoder(bytes.NewReader(body)).Decode(&badRequest); err != nil {
-			return "", fmt.Errorf("Error decoding badrequest: %w", err)
+			return "", fmt.Errorf("(Post Checkout) Error decoding badrequest: %w", err)
 		}
 
 		return "", fmt.Errorf(badRequest.Error())
@@ -103,7 +104,7 @@ func (api *APICONTEXT) PostCheckout(postcheckoutpayload PostCheckoutPayload) (st
 		var unauthorized *Unauthorized
 
 		if err := json.NewDecoder(bytes.NewReader(body)).Decode(&unauthorized); err != nil {
-			return "", fmt.Errorf("Error decoding unauthorized err: %w", err)
+			return "", fmt.Errorf("(Post Checkout) Error decoding unauthorized err: %w", err)
 		}
 
 		return "", fmt.Errorf(unauthorized.Error())
@@ -114,7 +115,7 @@ func (api *APICONTEXT) PostCheckout(postcheckoutpayload PostCheckoutPayload) (st
 
 	} else {
 
-		return "", fmt.Errorf("Error: status code %d", resp.StatusCode)
+		return "", fmt.Errorf("(Post Checkout) Error: status code %d", resp.StatusCode)
 
 	}
 
