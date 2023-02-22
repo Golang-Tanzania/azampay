@@ -111,7 +111,7 @@ func (api *APICONTEXT) PostCheckout(postcheckoutpayload PostCheckoutPayload) (st
 
 	} else if resp.StatusCode == 500 {
 
-		return "", fmt.Errorf("Internal Server Error: status code 500")
+		return "", fmt.Errorf("(Post Checkout) Internal Server Error: status code 500")
 
 	} else {
 
