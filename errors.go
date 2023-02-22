@@ -3,10 +3,22 @@ package GoAzam
 import "fmt"
 
 type (
+	//Invalid detail error returned when credentials are incorrect
+	InvalidDetail struct {
+		// Status code 423
+		Status int64 `json:"statusCode"`
+		// The error message
+		Message string `json:"message"`
+		// This will be false
+		Success bool `json:"success"`
+		// Data returned from the server
+		Data string `json:"null"`
+	}
+
 	// List of errors eg: missing a field, wrong type etc
 	ErrorList map[string]any
 
-	// Bad request error returned when there's a validation error
+	// Badrequest error returned when there's a validation error
 	BadRequestError struct {
 		// Status code 400
 		Status int64 `json:"status"`
@@ -33,6 +45,16 @@ type (
 	}
 )
 
+// Will format the Invalid Detail Error
+func (id *InvalidDetail) Error() string {
+	if id != nil {
+		return fmt.Sprintf("Invalid Detail Error: %d:\t%s", id.Status, id.Message)
+	}
+
+	return ""
+}
+
+// Will format the Badrequest Error
 func (bd *BadRequestError) Error() string {
 	if bd != nil {
 		var errorList string
@@ -44,6 +66,7 @@ func (bd *BadRequestError) Error() string {
 	return ""
 }
 
+// Will format the Unauthorized Error
 func (ua *Unauthorized) Error() string {
 	if ua != nil {
 		return fmt.Sprintf("Unauthorized: %s", ua.Message)
