@@ -7,6 +7,10 @@ import (
 )
 
 func callbackHandler(w http.ResponseWriter, r *http.Request) {
+	if r.Method != http.MethodPost {
+		http.Error(w, "Method Not Allowed", http.StatusMethodNotAllowed)
+		return
+	}
 	callbackData := make([]byte, r.ContentLength)
 	r.Body.Read(callbackData)
 	log.Printf("Callback: %s\n", callbackData)
