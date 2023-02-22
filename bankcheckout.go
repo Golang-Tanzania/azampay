@@ -59,7 +59,7 @@ type (
 
 // Function to access the bank checkout endpoint. It accepts a parameter of
 // type BankCheckoutPayload and returns a value of type BankCheckoutResponse.
-// and an error
+// and an error if any.
 func (api *APICONTEXT) BankCheckout(bankPayload BankCheckoutPayload) (*BankCheckoutResponse, error) {
 
 	jsonParameters, err := json.Marshal(bankPayload)
