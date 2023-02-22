@@ -61,7 +61,7 @@ var transactionTester GoAzam.APICONTEXT
 ```go
 if err := transactionTester.LoadKeys("config.json"); err != nil {
 	fmt.Println(err)
-    return
+	return
 }
 ```
 - The generate a session with the `GenerateSession` method that will get the `Bearer token` or return an error:
@@ -197,7 +197,7 @@ func main() {
 		return
 	}
 
-	example Callback
+	// example Callback
 	var exampleCallback GoAzam.CallbackPayload
 
 	exampleCallback.MSISDN = "0178334"
