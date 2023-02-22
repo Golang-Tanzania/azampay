@@ -10,19 +10,31 @@ import (
 
 type (
 	PaymentPartner struct {
-		ID                          string `json:"id"`
-		LogoURL                     string `json:"logoUrl"`
-		PartnerName                 string `json:"partnerName"`
-		Provider                    int64  `json:"provider"`
-		VendorName                  string `json:"vendorName"`
-		PaymentVendorID             string `json:"paymentVendorId"`
-		PaymentPartnerID            string `json:"paymentPartnerId"`
+		// ID of ther partner
+		ID string `json:"id"`
+		// Logo of the partner
+		LogoURL string `json:"logoUrl"`
+		// Name of the partner
+		PartnerName string `json:"partnerName"`
+		// Number of the provider
+		Provider int64 `json:"provider"`
+		// Name of the vendor
+		VendorName string `json:"vendorName"`
+		// ID of the payment vendor
+		PaymentVendorID string `json:"paymentVendorId"`
+		// ID of the payment partner
+		PaymentPartnerID string `json:"paymentPartnerId"`
+		// The callback url
 		PaymentAcknowledgementRoute string `json:"paymentAcknowledgementRoute"`
-		Currency                    string `json:"currency"`
-		Status                      string `json:"status"`
-		VendorType                  string `json:"vendorType"`
+		// Currency used
+		Currency string `json:"currency"`
+		// Status
+		Status string `json:"status"`
+		// Type of the vendor
+		VendorType string `json:"vendorType"`
 	}
 
+	// List of the payment partners
 	PaymentPartners []PaymentPartner
 )
 
