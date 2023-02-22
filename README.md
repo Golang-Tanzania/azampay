@@ -47,10 +47,10 @@ import (
 - To get authenticated save your files in a `config.json` file as below:
 ```json
 {
-    "appName": "",
+	"appName": "",
 	"clientId": "",
 	"clientSecret": "",
-    "token": ""
+	"token": ""
 }
 ```
 - Initiliaza a variable of type `APICONTEXT`:
@@ -146,7 +146,7 @@ func main() {
 		fmt.Println(err)
 		return
 	}
-    // example bank checkout
+	// example bank checkout
 	var exampleBankCheckout GoAzam.BankCheckoutPayload
 
 	exampleBankCheckout.Amount = "10000"
@@ -197,7 +197,7 @@ func main() {
 		return
 	}
 
-    example Callback
+	example Callback
 	var exampleCallback GoAzam.CallbackPayload
 
 	exampleCallback.MSISDN = "0178334"
@@ -247,8 +247,8 @@ func main() {
 		fmt.Println(err)
 		return
 	}
-    
-    // example get Payment Partners
+
+	// example get Payment Partners
 
 	examplePaymentPartners, err := transactionTester.PaymentPartners()
 
@@ -288,11 +288,11 @@ func main() {
 		return
 	}
 
-    // example Post checkout
+	// example Post checkout
 
 	var examplePostCheckout GoAzam.PostCheckoutPayload
-    
-    examplePostCheckout.AppName = "example"
+
+	examplePostCheckout.AppName = "example"
 	examplePostCheckout.Amount = "10000"
 	examplePostCheckout.ClientID = "1234"
 	examplePostCheckout.Currency = "TZS"
