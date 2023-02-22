@@ -6,6 +6,8 @@ import (
 	"net/http"
 )
 
+// callbackHandler will act as a dummy server on the
+// url: http://localhost:8000/api/v1/Checkout/Callback
 func callbackHandler(w http.ResponseWriter, r *http.Request) {
 	if r.Method != http.MethodPost {
 		http.Error(w, "Method Not Allowed", http.StatusMethodNotAllowed)
