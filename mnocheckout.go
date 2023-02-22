@@ -9,6 +9,7 @@ import (
 )
 
 type (
+	// Payload to send to the MNO Checkout endpoint
 	MNOPayload struct {
 		// This is the account number/MSISDN that consumer will provide. The amount will be deducted from this account (required)
 		AccountNumber string `json:"accountNumber"`
@@ -22,6 +23,7 @@ type (
 		Provider string `json:"provider"`
 	}
 
+	// Data received from the server after a valid transaction
 	MNOResponse struct {
 		// Will be true is successful
 		Success bool `json:"success"`
@@ -32,6 +34,8 @@ type (
 	}
 )
 
+// Function to send data to the MNO endpoint. It accepts a value of type
+// MNOPayload and returns a value of type MNOResponse
 func (api *APICONTEXT) MobileCheckout(mnopayload MNOPayload) (*MNOResponse, error) {
 
 	jsonParameters, err := json.Marshal(mnopayload)
