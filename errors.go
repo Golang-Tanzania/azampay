@@ -45,7 +45,8 @@ type (
 	}
 )
 
-// Will format the Invalid Detail Error
+// Will format the Invalid Detail Error. Returns a string with
+// the formatted error message.
 func (id *InvalidDetail) Error() string {
 	if id != nil {
 		return fmt.Sprintf("Invalid Detail Error: %d:\t%s", id.Status, id.Message)
@@ -54,7 +55,8 @@ func (id *InvalidDetail) Error() string {
 	return ""
 }
 
-// Will format the Badrequest Error
+// Will format the Badrequest Error. Returns a string with
+// the formatted error message.
 func (bd *BadRequestError) Error() string {
 	if bd != nil {
 		var errorList string
@@ -66,7 +68,8 @@ func (bd *BadRequestError) Error() string {
 	return ""
 }
 
-// Will format the Unauthorized Error
+// Will format the Unauthorized Error. Returns a string with
+// the formatted error message.
 func (ua *Unauthorized) Error() string {
 	if ua != nil {
 		return fmt.Sprintf("Unauthorized: %s", ua.Message)
