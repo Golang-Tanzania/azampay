@@ -10,8 +10,14 @@ func main() {
 	// initialize
 	var transactionTester GoAzam.APICONTEXT
 
-	transactionTester.LoadKeys("config.json")
-	transactionTester.GenerateSessionID("sandbox")
+	if err := transactionTester.LoadKeys("config.json"); err != nil {
+		fmt.Println(err)
+	}
+
+	if err := transactionTester.GenerateSessionID("sandbox"); err != nil {
+		fmt.Println(err)
+		return
+	}
 
 	// example mobile checkout
 	var exampleMobileCheckout GoAzam.MNOPayload
