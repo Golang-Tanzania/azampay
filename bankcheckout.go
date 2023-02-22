@@ -36,17 +36,22 @@ type (
 	}
 
 	ReferenceID struct {
+		// Reference ID of the transaction
 		ReferenceID string `json:"ReferenceID"`
 	}
 
 	Properties struct {
+		// List of properties
 		Properties ReferenceID `json:"properties"`
 	}
 
 	BankCheckoutResponse struct {
-		Success bool       `json:"success"`
-		Message string     `json:"msg"`
-		Data    Properties `json:"data"`
+		// will return true if successful
+		Success bool `json:"success"`
+		// message received from the server. Will be empty for sandbox
+		Message string `json:"msg"`
+		// data received from the server
+		Data Properties `json:"data"`
 	}
 )
 
