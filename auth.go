@@ -15,7 +15,7 @@ import (
 // be the mode of the app, either Sandbox or Production.
 // The default is Sandbox. It will return an error if token
 // generation was unsuccessful
-func (api *APICONTEXT) GenerateSessionID(mode string) error {
+func (api *APICONTEXT) GenerateSession(mode string) error {
 	var authURL string
 	if strings.ToLower(mode) == "production" {
 		api.BaseURL = ProductionBaseURL
