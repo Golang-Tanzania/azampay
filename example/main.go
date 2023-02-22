@@ -92,4 +92,19 @@ func main() {
 	for _, paymentpartner := range examplePaymentPartners {
 		fmt.Println(paymentpartner.PartnerName)
 	}
+
+	// example Post checkout
+
+	var examplePostCheckout GoAzam.PostCheckoutPayload
+
+	examplePostCheckout.VendorID = "e9b57fab-1850-44d4-8499-71fd15c845a0"
+
+	postCheckoutResult, err := transactionTester.PostCheckout(examplePostCheckout)
+
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+
+	fmt.Println(postCheckoutResult)
 }
