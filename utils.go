@@ -1,5 +1,6 @@
 package GoAzam
 
+// Base URLs
 const (
 	SandboxBaseURL    = "https://sandbox.azampay.co.tz"
 	SandboxAuthURL    = "https://authenticator-sandbox.azampay.co.tz/AppRegistration/GenerateToken"
@@ -22,8 +23,8 @@ type APICONTEXT struct {
 // A helper struct to read values from the
 // config.json file
 type keys struct {
-	appName      string
-	clientId     string
-	clientSecret string
-	token        string
+	AppName      string
+	ClientId     string
+	ClientSecret string
+	Token        string
 }
