@@ -9,6 +9,7 @@ import (
 )
 
 type (
+	// Payload to be sent to the callback endpoint
 	CallbackPayload struct {
 		// This is amount that will be charged from the given account.
 		Amount string `json:"amount"`
@@ -35,6 +36,8 @@ type (
 	}
 )
 
+// Function to access the callback endpoint. It accepts a parameter of type Callback,
+// an absolute URL to the checkout endpoint and will return a value of type CallbackResponse.
 func (api *APICONTEXT) Callback(callbackpayload CallbackPayload, url string) (*CallbackResponse, error) {
 
 	jsonParameters, err := json.Marshal(callbackpayload)
@@ -78,7 +81,7 @@ func (api *APICONTEXT) Callback(callbackpayload CallbackPayload, url string) (*C
 
 		if decodeErr != nil {
 			if decodeErr == io.EOF {
-				return nil, fmt.Errorf("Error: Server returned an empty body")
+				return nil, fmt.Errorf("(Callback) Error: Server returned an empty body")
 			}
 			return nil, decodeErr
 		}
@@ -89,7 +92,7 @@ func (api *APICONTEXT) Callback(callbackpayload CallbackPayload, url string) (*C
 		var badRequest *BadRequestError
 
 		if err := json.NewDecoder(bytes.NewReader(body)).Decode(&badRequest); err != nil {
-			return nil, fmt.Errorf("Error decoding badrequest: %w", err)
+			return nil, fmt.Errorf("(Callback) Error decoding badrequest: %w", err)
 		}
 
 		return nil, fmt.Errorf(badRequest.Error())
@@ -98,18 +101,18 @@ func (api *APICONTEXT) Callback(callbackpayload CallbackPayload, url string) (*C
 		var unauthorized *Unauthorized
 
 		if err := json.NewDecoder(bytes.NewReader(body)).Decode(&unauthorized); err != nil {
-			return nil, fmt.Errorf("Error decoding unauthorized err: %w", err)
+			return nil, fmt.Errorf("(Callback) Error decoding unauthorized err: %w", err)
 		}
 
 		return nil, fmt.Errorf(unauthorized.Error())
 
 	} else if resp.StatusCode == 500 {
 
-		return nil, fmt.Errorf("Internal Server Error: status code 500")
+		return nil, fmt.Errorf("(Callback) Internal Server Error: status code 500")
 
 	} else {
 
-		return nil, fmt.Errorf("Error: status code %d", resp.StatusCode)
+		return nil, fmt.Errorf("(Callback) Error: status code %d", resp.StatusCode)
 
 	}
 
