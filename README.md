@@ -1,87 +1,326 @@
-# Go Azam Pay
+<h1 align="center">Go Azam Pay</h1>
 
-A golang wrapper for Azam Payment Gateway. Still a work in progress.
+A golang wrapper for Azam Payment Gateway. Made with love for gophers ❤️.
 
+# Introduction
+
+[AzamPay](https://developerdocs.azampay.co.tz/redoc) is specialized in the development of end-to-end online payment management solutions for companies operating in East Africa. They provide an API which allows developers to integrate their system's to Azampay's gateway.
+
+This is a Golang wrapper which significantly simplifies access and integration to Azampay's gateway.
+
+<p align="center">
+<img src="./assets/azampay-api-flow.svg">
+</p>
+
+# Features of GoAzam
+
+- Make mobile network checkouts
+- Make bank checkouts 
+- Manage callback URLs after a transaction is confirmed
+- Return a list of registered partners of the provided merchant 
+- Create post checkout URLs for payments 
+
+# Pre-Requisites
+
+- Sign up for a developer account with [Azampay](https://developers.azampay.co.tz/)
+- Register an app to get credentials
+- Use the provided credentials to access the API. Save these credentials in a `config.json` file.
+
+# Installation
+
+Install the package with the `go get` command as shown below:
+```sh 
+go get github.com/Golang-Tanzania/GoAzam
+```
+
+Then import it as follows:
 ```go
-package main
+package main 
 
 import (
+    "github.com/Golang-Tanzania/GoAzam"
+)
+```
+
+# Authentication
+
+- To get authenticated save your files in a `config.json` file as below:
+```json
+{
+    "appName": "",
+	"clientId": "",
+	"clientSecret": "",
+    "token": ""
+}
+```
+- Initiliaza a variable of type `APICONTEXT`:
+```go
+var transactionTester GoAzam.APICONTEXT
+```
+- Load the keys with the `LoadKeys` method. This accepts the json file as a parameter and will return an error:
+```go
+if err := transactionTester.LoadKeys("config.json"); err != nil {
+	fmt.Println(err)
+    return
+}
+```
+- The generate a session with the `GenerateSessionID` method that will get the `Bearer token` or return an error:
+```go
+if err := transactionTester.GenerateSessionID("sandbox"); err != nil {
+    fmt.Println(err)
+    return
+}
+```
+
+# Transactions 
+
+## MNO Checkout 
+To perform an MNO Checkout, first create a variable of type `MNOPayload` and fill in its values. Then call the `MobileCheckout` with the `MNOPayload` as its parameter.
+
+The `MobileCheckout` method will return a value of type `MNOResponse` and an error if any. Any desired value can be accessed with the returned value. Below is a full example:
+
+```go
+package main 
+import (
+	"Golang-Tanzania/GoAzam"
 	"fmt"
 )
 
 func main() {
 
-	// Mobile Checkout Example
+	// initialize
+	var transactionTester GoAzam.APICONTEXT
 
-	var test1 APICONTEXT
-	test1.LoadKeys("config.json")
-	test1.generateSessionID()
+	if err := transactionTester.LoadKeys("config.json"); err != nil {
+		fmt.Println(err)
+	}
 
-	testMobile := make(map[string]string)
+	if err := transactionTester.GenerateSessionID("sandbox"); err != nil {
+		fmt.Println(err)
+		return
+	}
 
-	testMobile["accountNumber"] = "0700000000"
-	testMobile["amount"] = "2000"
-	testMobile["currency"] = "TZS"
-	testMobile["externalId"] = "123"
-	testMobile["provider"] = "TIGO"
+	// example mobile checkout
+	var exampleMobileCheckout GoAzam.MNOPayload
 
-	fmt.Println(test1.MobileCheckout(testMobile))
+	exampleMobileCheckout.AccountNumber = "0700000000"
+	exampleMobileCheckout.Amount = "2000"
+	exampleMobileCheckout.Currency = "TZS"
+	exampleMobileCheckout.ExternalID = "123"
+	exampleMobileCheckout.Provider = "TIGO"
 
-	// Bank Checkout Example
+	mnoResult, err := transactionTester.MobileCheckout(exampleMobileCheckout)
 
-	var test2 APICONTEXT
-	test2.LoadKeys("config.json")
-	test2.generateSessionID()
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
 
-	testBank := make(map[string]string)
-
-	testBank["amount"] = "2000"
-	testBank["currencyCode"] = "TZS"
-	testBank["merchantAccountNumber"] = "123321"
-	testBank["merchantMobileNumber"] = "0700123123"
-	testBank["otp"] = "1234"
-	testBank["provider"] = "NMB"
-	testBank["referenceId"] = "123"
-
-	fmt.Println(test2.BankCheckout(testBank))
-
-	//  Callback Example
-
-	var test3 APICONTEXT
-	test3.LoadKeys("config.json")
-	test3.generateSessionID()
-
-	testCallback := make(map[string]string)
-
-	testCallback["msisdn"] = "0178823"
-	testCallback["amount"] = "2000"
-	testCallback["message"] = "any message"
-	testCallback["utilityref"] = "1292-123"
-	testCallback["operator"] = "Tigo"
-	testCallback["reference"] = "123-123"
-	testCallback["transactionstatus"] = "success"
-	testCallback["submerchantAcc"] = "01723113"
-
-	fmt.Println(test3.Callback(testCallback))
-
-	// Payment Partner Example
-
-	var test4 APICONTEXT
-	test4.LoadKeys("config.json")
-	test4.generateSessionID()
-
-	testPaymentPartner := make(map[string]string)
-
-	testPaymentPartner["currency"] = "TZS"
-	testPaymentPartner["id"] = "497f6eca-6276-4993-bfeb-53cbbbba6f08"
-	testPaymentPartner["logoUrl"] = "https://source.unsplash.com/random/200x200?sig=1"
-	testPaymentPartner["partnerName"] = "Azampesa"
-	testPaymentPartner["paymentPartnerId"] = "12031"
-	testPaymentPartner["paymentVendorId"] = "123"
-	testPaymentPartner["provider"] = "4"
-	testPaymentPartner["status"] = "active"
-	testPaymentPartner["vendorName"] = "AzamPesa"
-
-	fmt.Println(test4.PaymentPartners(testPaymentPartner))
+	fmt.Println(mnoResult.Success)
+	fmt.Println(mnoResult.Message)
+	fmt.Println(mnoResult.TransactionID)
 }
 ```
+
+## Bank Checkout
+To perform an Bank Checkout, first create a variable of type `BankCheckoutPayload` and fill in its values. Then call the `BankCheckout` method with the `BankCheckoutPayload` as its parameter.
+
+The `BankCheckout` method will return a value of type `BankCheckoutResponse` and an error if any. Any desired value can be accessed with the returned value. Below is a full example:
+```go
+package main 
+import (
+	"Golang-Tanzania/GoAzam"
+	"fmt"
+)
+
+func main() {
+
+	// initialize
+	var transactionTester GoAzam.APICONTEXT
+
+	if err := transactionTester.LoadKeys("config.json"); err != nil {
+		fmt.Println(err)
+	}
+
+	if err := transactionTester.GenerateSessionID("sandbox"); err != nil {
+		fmt.Println(err)
+		return
+	}
+    // example bank checkout
+	var exampleBankCheckout GoAzam.BankCheckoutPayload
+
+	exampleBankCheckout.Amount = "10000"
+	exampleBankCheckout.CurrencyCode = "TZS"
+	exampleBankCheckout.MerchantAccountNumber = "123321"
+	exampleBankCheckout.MerchantMobileNumber = "0700000000"
+	exampleBankCheckout.MerchantName = "somebody"
+	exampleBankCheckout.OTP = "1234"
+	exampleBankCheckout.Provider = "CRDB"
+	exampleBankCheckout.ReferenceID = "123"
+
+	bankResult, err := transactionTester.BankCheckout(exampleBankCheckout)
+
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+
+	fmt.Println(bankResult.Success)
+	fmt.Println(bankResult.Message)
+	fmt.Println(bankResult.Data.Properties.ReferenceID)
+}
+```
+
+## Callback
+
+The link for this endpoint will be provided by GoAzam upon registering your app. In the meantime, you could use the provided server code found in the `server` folder.
+
+Initiliaza a variable of type `CallbackPayload` and fill in the necessary values. Then call the `Callback` method, providing the `CallbackPayload` and the absolute URL as parameters. The method will return a variable of type `CallbackResponse` or an `error`. Full example below:
+```go
+package main 
+import (
+	"Golang-Tanzania/GoAzam"
+	"fmt"
+)
+
+func main() {
+
+	// initialize
+	var transactionTester GoAzam.APICONTEXT
+
+	if err := transactionTester.LoadKeys("config.json"); err != nil {
+		fmt.Println(err)
+	}
+
+	if err := transactionTester.GenerateSessionID("sandbox"); err != nil {
+		fmt.Println(err)
+		return
+	}
+
+    example Callback
+	var exampleCallback GoAzam.CallbackPayload
+
+	exampleCallback.MSISDN = "0178334"
+	exampleCallback.Amount = "2000"
+	exampleCallback.Message = "testing callback"
+	exampleCallback.UtilityRef = "1282-123"
+	exampleCallback.Operator = "Airtel"
+	exampleCallback.Reference = "123-123"
+	exampleCallback.TransactionStatus = "success"
+	exampleCallback.SubmerchantAcc = "01723113"
+
+	// This domain should be the absolute path to your callback URL.
+	// You can use the example server in this repository to test this endpoint.
+	url := "http://localhost:8000/api/v1/Checkout/Callback"
+	callbackResult, err := transactionTester.Callback(exampleCallback, url)
+
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+
+	fmt.Println(callbackResult.Success)
+}
+
+```
+
+## Payment Partners 
+
+To get all available payment partners, call the `PaymentPartners` method as shown below. It will return a value of type `PaymentPatners` or an error:
+```go
+package main 
+import (
+	"Golang-Tanzania/GoAzam"
+	"fmt"
+)
+
+func main() {
+
+	// initialize
+	var transactionTester GoAzam.APICONTEXT
+
+	if err := transactionTester.LoadKeys("config.json"); err != nil {
+		fmt.Println(err)
+	}
+
+	if err := transactionTester.GenerateSessionID("sandbox"); err != nil {
+		fmt.Println(err)
+		return
+	}
+    
+    // example get Payment Partners
+
+	examplePaymentPartners, err := transactionTester.PaymentPartners()
+
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+
+	for _, paymentpartner := range examplePaymentPartners {
+		fmt.Println(paymentpartner.PartnerName)
+	}
+}
+```
+
+## Post Checkout 
+
+To get a post checkout URL, first initialize a variable of type `PostCheckoutPayload`. Then call the `PostCheckout` method providing the payload as a parameter. The method will return the checkout URL or an error. Full example below:
+
+```go
+package main 
+import (
+	"Golang-Tanzania/GoAzam"
+	"fmt"
+)
+
+func main() {
+
+	// initialize
+	var transactionTester GoAzam.APICONTEXT
+
+	if err := transactionTester.LoadKeys("config.json"); err != nil {
+		fmt.Println(err)
+	}
+
+	if err := transactionTester.GenerateSessionID("sandbox"); err != nil {
+		fmt.Println(err)
+		return
+	}
+
+    // example Post checkout
+
+	var examplePostCheckout GoAzam.PostCheckoutPayload
+    
+    examplePostCheckout.AppName = "example"
+	examplePostCheckout.Amount = "10000"
+	examplePostCheckout.ClientID = "1234"
+	examplePostCheckout.Currency = "TZS"
+	examplePostCheckout.ExternalID = "30characterslong"
+	examplePostCheckout.Language = "SW"
+	examplePostCheckout.RedirectFailURL = "yoururl"
+	examplePostCheckout.RedirectSuccessURL = "yourrul"
+	examplePostCheckout.RequestOrigin = "yourorigin"
+	examplePostCheckout.VendorName = "VendorName"
+	examplePostCheckout.VendorID = "e9b57fab-1850-44d4-8499-71fd15c845a0"
+
+	postCheckoutURL, err := transactionTester.PostCheckout(examplePostCheckout)
+
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+
+	fmt.Println(postCheckoutURL)
+}
+
+```
+
+# Issues
+
+If you notice any issues with the package kindly notify us as soon as possible.
+
+# Credits
+
+- [Avicenna](https://github.com/AvicennaJr)
+- All other [contributors](https://github.com/Golang-Tanzania/GoAzam/graphs/contributors)
