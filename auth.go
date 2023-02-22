@@ -59,7 +59,6 @@ func (api *APICONTEXT) GenerateSessionID(mode string) string {
 
 	if result.Data["accessToken"] != "" {
 		api.Bearer = result.Data["accessToken"]
-		fmt.Println(api.Bearer)
 		return api.Bearer
 	} else {
 		return string(body)
