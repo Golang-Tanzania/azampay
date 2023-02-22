@@ -107,7 +107,7 @@ func (api *APICONTEXT) PaymentPartners() (PaymentPartners, error) {
 
 	} else if resp.StatusCode == 500 {
 
-		return nil, fmt.Errorf("Internal Server Error: status code 500")
+		return nil, fmt.Errorf("(Payment Partners) Internal Server Error: status code 500")
 
 	} else {
 
