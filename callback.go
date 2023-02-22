@@ -37,7 +37,8 @@ type (
 )
 
 // Function to access the callback endpoint. It accepts a parameter of type Callback,
-// an absolute URL to the checkout endpoint and will return a value of type CallbackResponse.
+// an absolute URL to the checkout endpoint and will return a value of type CallbackResponse
+// and an error if any
 func (api *APICONTEXT) Callback(callbackpayload CallbackPayload, url string) (*CallbackResponse, error) {
 
 	jsonParameters, err := json.Marshal(callbackpayload)
