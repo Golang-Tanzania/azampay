@@ -14,7 +14,7 @@ func main() {
 		fmt.Println(err)
 	}
 
-	if err := transactionTester.GenerateSessionID("sandbox"); err != nil {
+	if err := transactionTester.GenerateSession("sandbox"); err != nil {
 		fmt.Println(err)
 		return
 	}
@@ -63,28 +63,28 @@ func main() {
 	fmt.Println(bankResult.Data.Properties.ReferenceID)
 
 	// example Callback
-	// var exampleCallback GoAzam.CallbackPayload
-	//
-	// exampleCallback.MSISDN = "0178334"
-	// exampleCallback.Amount = "2000"
-	// exampleCallback.Message = "testing callback"
-	// exampleCallback.UtilityRef = "1282-123"
-	// exampleCallback.Operator = "Airtel"
-	// exampleCallback.Reference = "123-123"
-	// exampleCallback.TransactionStatus = "success"
-	// exampleCallback.SubmerchantAcc = "01723113"
-	//
-	// // This domain should be the absolute path to your callback URL.
-	// // You can use the example server in this repository to test this endpoint.
-	// url := "http://localhost:8000/api/v1/Checkout/Callback"
-	// callbackResult, err := transactionTester.Callback(exampleCallback, url)
-	//
-	// if err != nil {
-	// 	fmt.Println(err)
-	// 	return
-	// }
-	//
-	// fmt.Println(callbackResult.Success)
+	var exampleCallback GoAzam.CallbackPayload
+
+	exampleCallback.MSISDN = "0178334"
+	exampleCallback.Amount = "2000"
+	exampleCallback.Message = "testing callback"
+	exampleCallback.UtilityRef = "1282-123"
+	exampleCallback.Operator = "Airtel"
+	exampleCallback.Reference = "123-123"
+	exampleCallback.TransactionStatus = "success"
+	exampleCallback.SubmerchantAcc = "01723113"
+
+	// This domain should be the absolute path to your callback URL.
+	// You can use the example server in this repository to test this endpoint.
+	url := "http://localhost:8000/api/v1/Checkout/Callback"
+	callbackResult, err := transactionTester.Callback(exampleCallback, url)
+
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+
+	fmt.Println(callbackResult.Success)
 
 	// example get Payment Partners
 
@@ -103,14 +103,24 @@ func main() {
 
 	var examplePostCheckout GoAzam.PostCheckoutPayload
 
+	examplePostCheckout.AppName = "example"
+	examplePostCheckout.Amount = "10000"
+	examplePostCheckout.ClientID = "1234"
+	examplePostCheckout.Currency = "TZS"
+	examplePostCheckout.ExternalID = "30characterslong"
+	examplePostCheckout.Language = "SW"
+	examplePostCheckout.RedirectFailURL = "yoururl"
+	examplePostCheckout.RedirectSuccessURL = "yourrul"
+	examplePostCheckout.RequestOrigin = "yourorigin"
+	examplePostCheckout.VendorName = "VendorName"
 	examplePostCheckout.VendorID = "e9b57fab-1850-44d4-8499-71fd15c845a0"
 
-	postCheckoutResult, err := transactionTester.PostCheckout(examplePostCheckout)
+	postCheckoutURL, err := transactionTester.PostCheckout(examplePostCheckout)
 
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
 
-	fmt.Println(postCheckoutResult)
+	fmt.Println(postCheckoutURL)
 }
