@@ -65,7 +65,7 @@ func (api *APICONTEXT) GenerateSessionID(mode string) error {
 
 		if decodeErr != nil {
 			if decodeErr == io.EOF {
-				return fmt.Errorf("Token Generation Error: Server returned an empty body")
+				return fmt.Errorf("(Token Generation) Error: Server returned an empty body")
 			}
 			return decodeErr
 		}
@@ -79,7 +79,7 @@ func (api *APICONTEXT) GenerateSessionID(mode string) error {
 		var badRequest *BadRequestError
 
 		if err := json.NewDecoder(bytes.NewReader(body)).Decode(&badRequest); err != nil {
-			return fmt.Errorf("Token Generation Error: decoding bad request error: %w", err)
+			return fmt.Errorf("(Token Generation) Error: decoding bad request error: %w", err)
 		}
 
 		return fmt.Errorf(badRequest.Error())
@@ -87,18 +87,18 @@ func (api *APICONTEXT) GenerateSessionID(mode string) error {
 		var invalidDetail *InvalidDetail
 
 		if err := json.NewDecoder(bytes.NewReader(body)).Decode(&invalidDetail); err != nil {
-			return fmt.Errorf("Token Generation Error: decoding invalid detail error: %w", err)
+			return fmt.Errorf("(Token Generation) Error: decoding invalid detail error: %w", err)
 		}
 
 		return fmt.Errorf(invalidDetail.Error())
 
 	} else if resp.StatusCode == 500 {
 
-		return fmt.Errorf("Token Generation: Internal Server Error: status code 500")
+		return fmt.Errorf("(Token Generation) Internal Server Error: status code 500")
 
 	} else {
 
-		return fmt.Errorf("Token Generation Error: status code %d", resp.StatusCode)
+		return fmt.Errorf("(Token Generation) Error: status code %d", resp.StatusCode)
 
 	}
 
