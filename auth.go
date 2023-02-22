@@ -111,7 +111,7 @@ func (api *APICONTEXT) LoadKeys(file string) error {
 	configKeys, err := ioutil.ReadFile(file)
 
 	if err != nil {
-		fmt.Println(err)
+		return err
 	}
 
 	var readKeys keys
