@@ -2,8 +2,13 @@ package GoAzam
 
 // Base URLs
 const (
-	SandboxBaseURL    = "https://sandbox.azampay.co.tz"
-	SandboxAuthURL    = "https://authenticator-sandbox.azampay.co.tz/AppRegistration/GenerateToken"
+	// Sandbox URLs
+
+	SandboxBaseURL = "https://sandbox.azampay.co.tz"
+	SandboxAuthURL = "https://authenticator-sandbox.azampay.co.tz/AppRegistration/GenerateToken"
+
+	// Production URLs
+
 	ProductionBaseURL = "https://checkout.azampay.co.tz"
 	ProductionAuthURL = "https://authenticator.azampay.co.tz/AppRegistration/GenerateToken"
 )
