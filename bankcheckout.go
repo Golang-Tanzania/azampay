@@ -126,7 +126,7 @@ func (api *APICONTEXT) BankCheckout(bankPayload BankCheckoutPayload) (*BankCheck
 
 		return nil, fmt.Errorf(unauthorized.Error())
 	} else if resp.StatusCode == 500 {
-		return nil, fmt.Errorf("Internal Server Error: status code 500")
+		return nil, fmt.Errorf("(Bank Checkout) Internal Server Error: status code 500")
 	} else {
 		return nil, fmt.Errorf("(Bank Checkout) Error: status code %d", resp.StatusCode)
 	}
