@@ -70,7 +70,7 @@ func (api *APICONTEXT) BankCheckout(bankPayload BankCheckoutPayload) (*BankCheck
 	bearer := fmt.Sprintf("Bearer %v", api.Bearer)
 
 	req.Header.Set("Authorization", bearer)
-	req.Header.Set("X-API-KEY", api.Token)
+	req.Header.Set("X-API-KEY", api.token)
 	req.Header.Set("Content-Type", "application/json")
 
 	if err != nil {
