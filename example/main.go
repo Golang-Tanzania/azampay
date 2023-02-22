@@ -11,50 +11,85 @@ func main() {
 	var transactionTester GoAzam.APICONTEXT
 
 	transactionTester.LoadKeys("config.json")
-	transactionTester.GenerateSessionID()
+	transactionTester.GenerateSessionID("sandbox")
 
 	// example mobile checkout
-	exampleMobileCheckout := make(map[string]string)
+	var exampleMobileCheckout GoAzam.MNOPayload
 
-	exampleMobileCheckout["accountNumber"] = "0700000000"
-	exampleMobileCheckout["amount"] = "2000"
-	exampleMobileCheckout["currency"] = "TZS"
-	exampleMobileCheckout["externalId"] = "123"
-	exampleMobileCheckout["provider"] = "TIGO"
+	exampleMobileCheckout.AccountNumber = "0700000000"
+	exampleMobileCheckout.Amount = "2000"
+	exampleMobileCheckout.Currency = "TZS"
+	exampleMobileCheckout.ExternalID = "123"
+	exampleMobileCheckout.Provider = "TIGO"
 
-	fmt.Println(transactionTester.MobileCheckout(exampleMobileCheckout))
+	mnoResult, err := transactionTester.MobileCheckout(exampleMobileCheckout)
+
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+
+	fmt.Println(mnoResult.Success)
+	fmt.Println(mnoResult.Message)
+	fmt.Println(mnoResult.TransactionID)
 
 	// example bank checkout
-	exampleBankCheckout := make(map[string]string)
+	var exampleBankCheckout GoAzam.BankCheckoutPayload
 
-	exampleBankCheckout["amount"] = "10000"
-	exampleBankCheckout["currencyCode"] = "TZS"
-	exampleBankCheckout["merchantAccountNumber"] = "123321"
-	exampleBankCheckout["merchantMobileNumber"] = "0700000000"
-	exampleBankCheckout["otp"] = "1234"
-	exampleBankCheckout["provider"] = "CRDB"
-	exampleBankCheckout["ReferenceID"] = "123"
+	exampleBankCheckout.Amount = "10000"
+	exampleBankCheckout.CurrencyCode = "TZS"
+	exampleBankCheckout.MerchantAccountNumber = "123321"
+	exampleBankCheckout.MerchantMobileNumber = "0700000000"
+	exampleBankCheckout.MerchantName = "somebody"
+	exampleBankCheckout.OTP = "1234"
+	exampleBankCheckout.Provider = "CRDB"
+	exampleBankCheckout.ReferenceID = "123"
 
-	fmt.Println(transactionTester.BankCheckout(exampleBankCheckout))
+	bankResult, err := transactionTester.BankCheckout(exampleBankCheckout)
+
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+
+	fmt.Println(bankResult.Success)
+	fmt.Println(bankResult.Message)
+	fmt.Println(bankResult.Data.Properties.ReferenceID)
 
 	// example Callback
+	// var exampleCallback GoAzam.CallbackPayload
+	//
+	// exampleCallback.MSISDN = "0178334"
+	// exampleCallback.Amount = "2000"
+	// exampleCallback.Message = "testing callback"
+	// exampleCallback.UtilityRef = "1282-123"
+	// exampleCallback.Operator = "Airtel"
+	// exampleCallback.Reference = "123-123"
+	// exampleCallback.TransactionStatus = "success"
+	// exampleCallback.SubmerchantAcc = "01723113"
+	//
+	// // This domain should be the absolute path to your callback URL.
+	// // You can use the example server in this repository to test this endpoint.
+	// url := "http://localhost:8000/api/v1/Checkout/Callback"
+	// callbackResult, err := transactionTester.Callback(exampleCallback, url)
+	//
+	// if err != nil {
+	// 	fmt.Println(err)
+	// 	return
+	// }
+	//
+	// fmt.Println(callbackResult.Success)
 
-	exampleCallback := make(map[string]string)
+	// example get Payment Partners
 
-	exampleCallback["msisdn"] = "0178334"
-	exampleCallback["amount"] = "2000"
-	exampleCallback["message"] = "testing callback"
-	exampleCallback["utilityref"] = "1282-123"
-	exampleCallback["operator"] = "Airtel"
-	exampleCallback["reference"] = "123-123"
-	exampleCallback["transactionstatus"] = "success"
-	exampleCallback["submerchantAcc"] = "01723113"
+	examplePaymentPartners, err := transactionTester.PaymentPartners()
 
-	exampleCallbackURL := "" // You need to set a webhook or fill provided URL
-	fmt.Println(transactionTester.Callback(exampleCallback, exampleCallbackURL))
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
 
-	// example Payment Partner
-
-	fmt.Println(transactionTester.PaymentPartners())
-
+	for _, paymentpartner := range examplePaymentPartners {
+		fmt.Println(paymentpartner.PartnerName)
+	}
 }
