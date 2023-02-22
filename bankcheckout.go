@@ -9,6 +9,7 @@ import (
 )
 
 type (
+	// Payload to send to the bank checkout endpoint
 	BankCheckoutPayload struct {
 		// This is amount that will be charged from the given account (required)
 		Amount string `json:"amount"`
@@ -45,6 +46,7 @@ type (
 		Properties ReferenceID `json:"properties"`
 	}
 
+	// Data received from the server after a successful transaction
 	BankCheckoutResponse struct {
 		// will return true if successful
 		Success bool `json:"success"`
@@ -55,6 +57,8 @@ type (
 	}
 )
 
+// Function to access the bank checkout endpoint. It accepts a parameter of
+// type BankCheckoutPayload and returns a value of type BankCheckoutResponse.
 func (api *APICONTEXT) BankCheckout(bankPayload BankCheckoutPayload) (*BankCheckoutResponse, error) {
 
 	jsonParameters, err := json.Marshal(bankPayload)
@@ -99,7 +103,7 @@ func (api *APICONTEXT) BankCheckout(bankPayload BankCheckoutPayload) (*BankCheck
 		decodeErr := json.NewDecoder(bytes.NewReader(body)).Decode(&bankResponse)
 		if decodeErr != nil {
 			if decodeErr == io.EOF {
-				return nil, fmt.Errorf("Error: Server returned an empty body.")
+				return nil, fmt.Errorf("(Bank Checkout) Error: Server returned an empty body.")
 			}
 			return nil, decodeErr
 		}
@@ -109,7 +113,7 @@ func (api *APICONTEXT) BankCheckout(bankPayload BankCheckoutPayload) (*BankCheck
 		var badRequest *BadRequestError
 
 		if err := json.NewDecoder(bytes.NewReader(body)).Decode(&badRequest); err != nil {
-			return nil, fmt.Errorf("Error decoding badrequest: %w", err)
+			return nil, fmt.Errorf("(Bank Checkout) Error decoding badrequest: %w", err)
 		}
 
 		return nil, fmt.Errorf(badRequest.Error())
@@ -117,14 +121,14 @@ func (api *APICONTEXT) BankCheckout(bankPayload BankCheckoutPayload) (*BankCheck
 		var unauthorized *Unauthorized
 
 		if err := json.NewDecoder(bytes.NewReader(body)).Decode(&unauthorized); err != nil {
-			return nil, fmt.Errorf("Error decoding unauthorized err: %w", err)
+			return nil, fmt.Errorf("(Bank Checkout) Error decoding unauthorized err: %w", err)
 		}
 
 		return nil, fmt.Errorf(unauthorized.Error())
 	} else if resp.StatusCode == 500 {
 		return nil, fmt.Errorf("Internal Server Error: status code 500")
 	} else {
-		return nil, fmt.Errorf("Error: status code %d", resp.StatusCode)
+		return nil, fmt.Errorf("(Bank Checkout) Error: status code %d", resp.StatusCode)
 	}
 
 }
