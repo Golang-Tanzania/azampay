@@ -3,7 +3,7 @@
 <p align="center">
 <a href="https://github.com/Golang-Tanzania/GoAzam"><img src="https://img.shields.io/badge/Made%20with-Go-1f425f.svg"></a>
 <a href="https://github.com/Golang-Tanzania/GoAzam"><img src="https://img.shields.io/github/go-mod/go-version/gomods/athens.svg"></a>
-<a href="https://pkg.go.dev/github.com/Golang-Tanzania/GoAzam"><img src="https://img.shields.io/badge/godoc-reference-blue.svg"></a><br><br>
+<a href="https://pkg.go.dev/Golang-Tanzania/GoAzam"><img src="https://img.shields.io/badge/godoc-reference-blue.svg"></a><br><br>
 A golang wrapper for Azam Payment Gateway. Made with love for gophers ❤️.
 </p>
 
