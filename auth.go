@@ -105,8 +105,8 @@ func (api *APICONTEXT) GenerateSessionID(mode string) error {
 }
 
 // A function to read keys from a config.json file.
-// It will return the APICONTEXT with the loaded keys.
-func (api *APICONTEXT) LoadKeys(file string) *APICONTEXT {
+// It will return an error if any.
+func (api *APICONTEXT) LoadKeys(file string) error {
 
 	configKeys, err := ioutil.ReadFile(file)
 
@@ -119,7 +119,7 @@ func (api *APICONTEXT) LoadKeys(file string) *APICONTEXT {
 	err = json.Unmarshal(configKeys, &readKeys)
 
 	if err != nil {
-		fmt.Println(err)
+		return err
 	}
 
 	api.appName = readKeys.AppName
@@ -127,5 +127,5 @@ func (api *APICONTEXT) LoadKeys(file string) *APICONTEXT {
 	api.clientSecret = readKeys.ClientSecret
 	api.token = readKeys.Token
 
-	return api
+	return nil
 }
