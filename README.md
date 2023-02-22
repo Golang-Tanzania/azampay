@@ -64,9 +64,9 @@ if err := transactionTester.LoadKeys("config.json"); err != nil {
     return
 }
 ```
-- The generate a session with the `GenerateSessionID` method that will get the `Bearer token` or return an error:
+- The generate a session with the `GenerateSession` method that will get the `Bearer token` or return an error:
 ```go
-if err := transactionTester.GenerateSessionID("sandbox"); err != nil {
+if err := transactionTester.GenerateSession("sandbox"); err != nil {
     fmt.Println(err)
     return
 }
