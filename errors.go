@@ -26,7 +26,9 @@ type (
 
 	// Status code 417: Please provide authorization
 	Unauthorized struct {
-		Status  string `json:"status"`
+		// Error status code
+		Status string `json:"status"`
+		// Error message
 		Message string `json:"message"`
 	}
 )
