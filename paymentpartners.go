@@ -9,6 +9,7 @@ import (
 )
 
 type (
+	// Payload that will be received from the payment partner payload.
 	PaymentPartner struct {
 		// ID of ther partner
 		ID string `json:"id"`
@@ -34,10 +35,12 @@ type (
 		VendorType string `json:"vendorType"`
 	}
 
-	// List of the payment partners
+	// List of the payment partners.
 	PaymentPartners []PaymentPartner
 )
 
+// A function to access the payment partners endpoint. It will return an Error
+// and a value of type PaymentPartners.
 func (api *APICONTEXT) PaymentPartners() (PaymentPartners, error) {
 
 	url := api.BaseURL + "/api/v1/Partner/GetPaymentPartners"
@@ -77,7 +80,7 @@ func (api *APICONTEXT) PaymentPartners() (PaymentPartners, error) {
 
 		if decodeErr != nil {
 			if decodeErr == io.EOF {
-				return nil, fmt.Errorf("Error: Server returned an empty body")
+				return nil, fmt.Errorf("(Payment Partners) Error: Server returned an empty body")
 			}
 			return nil, decodeErr
 		}
@@ -88,7 +91,7 @@ func (api *APICONTEXT) PaymentPartners() (PaymentPartners, error) {
 		var badRequest BadRequestError
 
 		if err := json.NewDecoder(bytes.NewReader(body)).Decode(&badRequest); err != nil {
-			return nil, fmt.Errorf("Error decoding badrequest: %w", err)
+			return nil, fmt.Errorf("(Payment Partners) Error decoding badrequest: %w", err)
 		}
 
 		return nil, fmt.Errorf(badRequest.Error())
@@ -97,7 +100,7 @@ func (api *APICONTEXT) PaymentPartners() (PaymentPartners, error) {
 		var unauthorized *Unauthorized
 
 		if err := json.NewDecoder(bytes.NewReader(body)).Decode(&unauthorized); err != nil {
-			return nil, fmt.Errorf("Error decoding unauthorized err: %w", err)
+			return nil, fmt.Errorf("(Payment Partners) Error decoding unauthorized err: %w", err)
 		}
 
 		return nil, fmt.Errorf(unauthorized.Error())
@@ -108,7 +111,7 @@ func (api *APICONTEXT) PaymentPartners() (PaymentPartners, error) {
 
 	} else {
 
-		return nil, fmt.Errorf("Error: status code %d", resp.StatusCode)
+		return nil, fmt.Errorf("(Payment Partners) Error: status code %d", resp.StatusCode)
 
 	}
 
