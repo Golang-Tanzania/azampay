@@ -1,11 +1,11 @@
-<h1 align="center">Go Azam Pay</h1>
+<h1 align="center">GO AZAM PAY</h1>
 
 <p align="center">
-A golang wrapper for Azam Payment Gateway. Made with love for gophers ❤️.
+A golang wrapper for Azam Payment Gateway. Made with love for gophers ❤️.<br>
+<a href="https://github.com/Golang-Tanzania/GoAzam"><img src="https://img.shields.io/badge/Made%20with-Go-1f425f.svg"></a>
+<a href="https://github.com/Golang-Tanzania/GoAzam"><img src="https://img.shields.io/github/go-mod/go-version/gomods/athens.svg"></a>
+<a href="https://pkg.go.dev/github.com/Golang-Tanzania/GoAzam"><img src="https://img.shields.io/badge/godoc-reference-blue.svg"></a>
 </p>
-[![made-with-Go](https://img.shields.io/badge/Made%20with-Go-1f425f.svg)](https://github.com/Golang-Tanzania/GoAzam)
-[![GitHub go.mod Go version of a Go module](https://img.shields.io/github/go-mod/go-version/gomods/athens.svg)](https://github.com/Golang-Tanzania/GoAzam)
-[![GoDoc reference example](https://img.shields.io/badge/godoc-reference-blue.svg)](https://pkg.go.dev/github.com/Golang-Tanzania/GoAzam)
 
 # Introduction
 
