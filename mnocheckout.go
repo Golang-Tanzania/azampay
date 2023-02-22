@@ -35,7 +35,7 @@ type (
 )
 
 // Function to send data to the MNO endpoint. It accepts a value of type
-// MNOPayload and returns a value of type MNOResponse
+// MNOPayload and returns a value of type MNOResponse and an error.
 func (api *APICONTEXT) MobileCheckout(mnopayload MNOPayload) (*MNOResponse, error) {
 
 	jsonParameters, err := json.Marshal(mnopayload)
