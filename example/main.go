@@ -1,8 +1,9 @@
 package main
 
 import (
-	"Golang-Tanzania/GoAzam"
 	"fmt"
+
+	"github.com/Golang-Tanzania/GoAzam"
 )
 
 func main() {
