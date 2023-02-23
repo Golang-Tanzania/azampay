@@ -23,7 +23,9 @@ This is a Golang wrapper which significantly simplifies access and integration t
 - Make bank checkouts 
 - Manage callback URLs after a transaction is confirmed
 - Return a list of registered partners of the provided merchant 
-- Create post checkout URLs for payments 
+- Create post checkout URLs for payments
+
+<img src="./assets/GoAzam.gif" align="center">
 
 # Pre-Requisites
 
