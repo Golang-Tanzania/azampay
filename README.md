@@ -39,7 +39,7 @@ This is a Golang wrapper which significantly simplifies access and integration t
 
 Install the package with the `go get` command as shown below:
 ```sh 
-go install github.com/Golang-Tanzania/GoAzam@latest
+go get github.com/Golang-Tanzania/GoAzam@latest
 ```
 
 Then import it as follows:
