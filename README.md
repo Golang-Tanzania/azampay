@@ -311,6 +311,16 @@ func main() {
 	examplePostCheckout.VendorName = "VendorName"
 	examplePostCheckout.VendorID = "e9b57fab-1850-44d4-8499-71fd15c845a0"
 
+    // Make a list of shopping items if any
+	shoppingList := []GoAzam.Item{
+		{Name: "Mandazi"},
+		{Name: "Sambusa"},
+		{Name: "Mkate"},
+	}
+	
+    // Append shopping list to cart
+    examplePostCheckout.Cart.Items = append(examplePostCheckout.Cart.Items, shoppingList...)
+
 	postCheckoutURL, err := transactionTester.PostCheckout(examplePostCheckout)
 
 	if err != nil {
