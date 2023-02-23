@@ -89,7 +89,7 @@ The `MobileCheckout` method will return a value of type `MNOResponse` and an err
 ```go
 package main 
 import (
-	"Golang-Tanzania/GoAzam"
+	"github.com/Golang-Tanzania/GoAzam"
 	"fmt"
 )
 
@@ -136,7 +136,7 @@ The `BankCheckout` method will return a value of type `BankCheckoutResponse` and
 ```go
 package main 
 import (
-	"Golang-Tanzania/GoAzam"
+	"github.com/Golang-Tanzania/GoAzam"
 	"fmt"
 )
 
@@ -186,7 +186,7 @@ Initiliaza a variable of type `CallbackPayload` and fill in the necessary values
 ```go
 package main 
 import (
-	"Golang-Tanzania/GoAzam"
+	"github.com/Golang-Tanzania/GoAzam"
 	"fmt"
 )
 
@@ -237,7 +237,7 @@ To get all available payment partners, call the `PaymentPartners` method as show
 ```go
 package main 
 import (
-	"Golang-Tanzania/GoAzam"
+	"github.com/Golang-Tanzania/GoAzam"
 	"fmt"
 )
 
@@ -277,7 +277,7 @@ To get a post checkout URL, first initialize a variable of type `PostCheckoutPay
 ```go
 package main 
 import (
-	"Golang-Tanzania/GoAzam"
+	"github.com/Golang-Tanzania/GoAzam"
 	"fmt"
 )
 
