@@ -62,7 +62,7 @@ import (
 	"token": ""
 }
 ```
-- Initiliaza a variable of type `APICONTEXT`:
+- Initiliaze a variable of type `APICONTEXT`:
 ```go
 var transactionTester GoAzam.APICONTEXT
 ```
@@ -84,7 +84,7 @@ if err := transactionTester.GenerateSession("sandbox"); err != nil {
 ## Transactions 
 
 ### MNO Checkout 
-To perform an MNO Checkout, first create a variable of type `MNOPayload` and fill in its values. Then call the `MobileCheckout` with the `MNOPayload` as its parameter.
+To perform an MNO Checkout, first create a variable of type `MNOPayload` and fill in its values. Then call the `MobileCheckout` method with the `MNOPayload` as its parameter.
 
 The `MobileCheckout` method will return a value of type `MNOResponse` and an error if any. Any desired value can be accessed with the returned value. Below is a full example:
 
