@@ -116,7 +116,8 @@ func main() {
 	exampleMobileCheckout.Amount = "2000"
 	exampleMobileCheckout.Currency = "TZS"
 	exampleMobileCheckout.ExternalID = "123"
-	exampleMobileCheckout.Provider = "TIGO"
+	exampleMobileCheckout.Provider = transactionTester.GetProvider(exampleMobileCheckout.AccountNumber)
+	
 
 	mnoResult, err := transactionTester.MobileCheckout(exampleMobileCheckout)
 
