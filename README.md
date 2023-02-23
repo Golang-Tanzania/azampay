@@ -7,7 +7,7 @@
 A golang wrapper for Azam Payment Gateway. Made with love for gophers ❤️.
 </p>
 
-# Introduction
+## Introduction
 
 [AzamPay](https://developerdocs.azampay.co.tz/redoc) is specialized in the development of end-to-end online payment management solutions for companies operating in East Africa. They provide an API which allows developers to integrate their system's to Azampay's gateway.
 
@@ -17,7 +17,7 @@ This is a Golang wrapper which significantly simplifies access and integration t
 <img src="./assets/azampay-api-flow.svg">
 </p>
 
-# Features of GoAzam
+## Features of GoAzam
 
 - Make mobile network checkouts
 - Make bank checkouts 
@@ -27,13 +27,13 @@ This is a Golang wrapper which significantly simplifies access and integration t
 
 <img src="./assets/GoAzam.gif" align="center">
 
-# Pre-Requisites
+## Pre-Requisites
 
 - Sign up for a developer account with [Azampay](https://developers.azampay.co.tz/)
 - Register an app to get credentials
 - Use the provided credentials to access the API. Save these credentials in a `config.json` file.
 
-# Installation
+## Installation
 
 Install the package with the `go get` command as shown below:
 ```sh 
@@ -49,7 +49,7 @@ import (
 )
 ```
 
-# Authentication
+## Authentication
 
 - To get authenticated save your files in a `config.json` file as below:
 ```json
@@ -79,9 +79,9 @@ if err := transactionTester.GenerateSession("sandbox"); err != nil {
 }
 ```
 
-# Transactions 
+## Transactions 
 
-## MNO Checkout 
+### MNO Checkout 
 To perform an MNO Checkout, first create a variable of type `MNOPayload` and fill in its values. Then call the `MobileCheckout` with the `MNOPayload` as its parameter.
 
 The `MobileCheckout` method will return a value of type `MNOResponse` and an error if any. Any desired value can be accessed with the returned value. Below is a full example:
@@ -129,7 +129,7 @@ func main() {
 }
 ```
 
-## Bank Checkout
+### Bank Checkout
 To perform an Bank Checkout, first create a variable of type `BankCheckoutPayload` and fill in its values. Then call the `BankCheckout` method with the `BankCheckoutPayload` as its parameter.
 
 The `BankCheckout` method will return a value of type `BankCheckoutResponse` and an error if any. Any desired value can be accessed with the returned value. Below is a full example:
@@ -178,7 +178,7 @@ func main() {
 }
 ```
 
-## Callback
+### Callback
 
 The link for this endpoint will be provided by GoAzam upon registering your app. In the meantime, you could use the provided server code found in the `server` folder.
 
@@ -231,7 +231,7 @@ func main() {
 
 ```
 
-## Payment Partners 
+### Payment Partners 
 
 To get all available payment partners, call the `PaymentPartners` method as shown below. It will return a value of type `PaymentPatners` or an error:
 ```go
@@ -270,7 +270,7 @@ func main() {
 }
 ```
 
-## Post Checkout 
+### Post Checkout 
 
 To get a post checkout URL, first initialize a variable of type `PostCheckoutPayload`. Then call the `PostCheckout` method providing the payload as a parameter. The method will return the checkout URL or an error. Full example below:
 
@@ -323,11 +323,11 @@ func main() {
 
 ```
 
-# Issues
+## Issues
 
 If you notice any issues with the package kindly notify us as soon as possible.
 
-# Credits
+## Credits
 
 - [Avicenna](https://github.com/AvicennaJr)
 - All other [contributors](https://github.com/Golang-Tanzania/GoAzam/graphs/contributors)
