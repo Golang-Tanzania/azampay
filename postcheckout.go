@@ -60,8 +60,7 @@ func (api *APICONTEXT) PostCheckout(postcheckoutpayload PostCheckoutPayload) (st
 		return "", err
 	}
 
-	// url := api.BaseURL + "/api/v1/Partner/PostCheckout"
-	url := "http://localhost:8000/api/v1/Checkout/Callback"
+	url := api.BaseURL + "/api/v1/Partner/PostCheckout"
 	req, err := http.NewRequest("POST", url, bytes.NewBuffer([]byte(jsonParameters)))
 
 	bearer := fmt.Sprintf("Bearer %v", api.Bearer)
