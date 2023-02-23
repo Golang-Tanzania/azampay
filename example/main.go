@@ -110,10 +110,18 @@ func main() {
 	examplePostCheckout.ExternalID = "30characterslong"
 	examplePostCheckout.Language = "SW"
 	examplePostCheckout.RedirectFailURL = "yoururl"
-	examplePostCheckout.RedirectSuccessURL = "yourrul"
+	examplePostCheckout.RedirectSuccessURL = "yoururl"
 	examplePostCheckout.RequestOrigin = "yourorigin"
 	examplePostCheckout.VendorName = "VendorName"
 	examplePostCheckout.VendorID = "e9b57fab-1850-44d4-8499-71fd15c845a0"
+
+	// Need to make list of shopping items if any
+	shoppingList := []GoAzam.Item{
+		{Name: "Mandazi"},
+		{Name: "Sambusa"},
+		{Name: "Mkate"},
+	}
+	examplePostCheckout.Cart.Items = append(examplePostCheckout.Cart.Items, shoppingList...)
 
 	postCheckoutURL, err := transactionTester.PostCheckout(examplePostCheckout)
 
