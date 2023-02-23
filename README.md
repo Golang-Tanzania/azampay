@@ -35,6 +35,7 @@ This is a Golang wrapper which significantly simplifies access and integration t
 
 ## Installation
 
+*Note: Ensure you have initialized your go code with `go mod init`*
 Install the package with the `go get` command as shown below:
 ```sh 
 go install github.com/Golang-Tanzania/GoAzam@latest
@@ -102,7 +103,7 @@ func main() {
 		fmt.Println(err)
 	}
 
-	if err := transactionTester.GenerateSessionID("sandbox"); err != nil {
+	if err := transactionTester.GenerateSession("sandbox"); err != nil {
 		fmt.Println(err)
 		return
 	}
@@ -149,7 +150,7 @@ func main() {
 		fmt.Println(err)
 	}
 
-	if err := transactionTester.GenerateSessionID("sandbox"); err != nil {
+	if err := transactionTester.GenerateSession("sandbox"); err != nil {
 		fmt.Println(err)
 		return
 	}
@@ -199,7 +200,7 @@ func main() {
 		fmt.Println(err)
 	}
 
-	if err := transactionTester.GenerateSessionID("sandbox"); err != nil {
+	if err := transactionTester.GenerateSession("sandbox"); err != nil {
 		fmt.Println(err)
 		return
 	}
@@ -250,7 +251,7 @@ func main() {
 		fmt.Println(err)
 	}
 
-	if err := transactionTester.GenerateSessionID("sandbox"); err != nil {
+	if err := transactionTester.GenerateSession("sandbox"); err != nil {
 		fmt.Println(err)
 		return
 	}
@@ -290,7 +291,7 @@ func main() {
 		fmt.Println(err)
 	}
 
-	if err := transactionTester.GenerateSessionID("sandbox"); err != nil {
+	if err := transactionTester.GenerateSession("sandbox"); err != nil {
 		fmt.Println(err)
 		return
 	}
