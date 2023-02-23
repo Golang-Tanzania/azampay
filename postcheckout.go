@@ -9,10 +9,15 @@ import (
 )
 
 type (
+	// Items in the shopping Cart
+	Item struct {
+		Name string `json:"name"`
+	}
+
 	// Shopping cart with multiple items
 	Cart struct {
 		// Items to be shopped
-		Items map[string]string `json:"items"`
+		Items []Item `json:"items"`
 	}
 
 	// Payload to be sent to the post checkout endpoint
@@ -55,8 +60,8 @@ func (api *APICONTEXT) PostCheckout(postcheckoutpayload PostCheckoutPayload) (st
 		return "", err
 	}
 
-	url := api.BaseURL + "/api/v1/Partner/PostCheckout"
-
+	// url := api.BaseURL + "/api/v1/Partner/PostCheckout"
+	url := "http://localhost:8000/api/v1/Checkout/Callback"
 	req, err := http.NewRequest("POST", url, bytes.NewBuffer([]byte(jsonParameters)))
 
 	bearer := fmt.Sprintf("Bearer %v", api.Bearer)
