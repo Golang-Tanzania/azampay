@@ -11,7 +11,7 @@ A golang wrapper for Azam Payment Gateway. Made with love for gophers ❤️.
 
 [AzamPay](https://developerdocs.azampay.co.tz/redoc) is specialized in the development of end-to-end online payment management solutions for companies operating in East Africa. They provide an API which allows developers to integrate their system's to Azampay's gateway.
 
-This is a Golang wrapper which significantly simplifies access and integration to Azampay's gateway.
+This is a Golang package which significantly simplifies access and integration to Azampay's gateway.
 
 <p align="center">
 <img src="./assets/azampay-api-flow.svg">
