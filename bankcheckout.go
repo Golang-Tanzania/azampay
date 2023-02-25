@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+	"reflect"
 )
 
 type (
@@ -64,6 +65,14 @@ type (
 // type BankCheckoutPayload and returns a value of type BankCheckoutResponse.
 // and an error if any.
 func (api *APICONTEXT) BankCheckout(bankPayload BankCheckoutPayload) (*BankCheckoutResponse, error) {
+
+	v := reflect.ValueOf(bankPayload)
+
+	for i := 0; i < v.NumField(); i++ {
+		if v.Field(i).String() == "" {
+			return nil, fmt.Errorf("(Bank Checkout) Error: Field '%v' is required.", v.Type().Field(i).Name)
+		}
+	}
 
 	jsonParameters, err := json.Marshal(bankPayload)
 
