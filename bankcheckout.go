@@ -34,6 +34,9 @@ type (
 
 		// This id belongs to the calling application. Maximum Allowed length for this field is 128 ascii characters (Optional)
 		ReferenceID string `json:"referenceId"`
+
+		// This is additional data you can provide (Optional)
+		AdditionalProperties AdditionalProperties `json:"additionalProperties"`
 	}
 
 	ReferenceID struct {
