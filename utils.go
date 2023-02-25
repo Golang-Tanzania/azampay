@@ -34,23 +34,23 @@ type keys struct {
 	Token        string
 }
 
-
 // This will return provider when phonenumber is passed(07XX-XXX-XXX)
-func (api *APICONTEXT) GetProvider(phoneNumber string) string {
-
-	phoneCode := phoneNumber[:3]
-
-	if phoneCode == "065" || phoneCode == "067" || phoneCode == "071" { //TIGO
-		return "Tigo"
-	} else if phoneCode == "074" || phoneCode == "075" || phoneCode == "076" { //Vodacom
-		return "Mpesa"
-	} else if phoneCode == "064" || phoneCode == "077" { //Zantel
-		return "Tigo" //@@Since Zantel and Tigo are one Company
-	} else if phoneCode == "062" || phoneCode == "061" { //Halopesa
-		return "Halopesa"
-	} else if phoneCode == "068" || phoneCode == "069" || phoneCode == "078" { //Airtel
-		return "Airtel"
-	} else {
-		return ""
-	}
-}
+// Need to add 'Azampesa'
+// func (api *APICONTEXT) GetProvider(phoneNumber string) string {
+//
+// 	phoneCode := phoneNumber[:3]
+//
+// 	if phoneCode == "065" || phoneCode == "067" || phoneCode == "071" { //TIGO
+// 		return "Tigo"
+// 	} else if phoneCode == "074" || phoneCode == "075" || phoneCode == "076" { //Vodacom
+// 		return "Mpesa"
+// 	} else if phoneCode == "064" || phoneCode == "077" { //Zantel
+// 		return "Tigo" //@@Since Zantel and Tigo are one Company
+// 	} else if phoneCode == "062" || phoneCode == "061" { //Halopesa
+// 		return "Halopesa"
+// 	} else if phoneCode == "068" || phoneCode == "069" || phoneCode == "078" { //Airtel
+// 		return "Airtel"
+// 	} else {
+// 		return ""
+// 	}
+// }
