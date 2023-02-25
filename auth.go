@@ -20,9 +20,11 @@ func (api *APICONTEXT) GenerateSession(mode string) error {
 	if strings.ToLower(mode) == "production" {
 		api.BaseURL = ProductionBaseURL
 		authURL = ProductionAuthURL
-	} else {
+	} else if strings.ToLower(mode) == "sandbox" {
 		api.BaseURL = SandboxBaseURL
 		authURL = SandboxAuthURL
+	} else {
+		return fmt.Errorf("Error: Choose between sandbox or production")
 	}
 
 	parameters := fmt.Sprintf(`{"appName":"%v", "clientId": "%v", "clientSecret": "%v"}`, api.appName, api.clientID, api.clientSecret)
