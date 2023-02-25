@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+	"reflect"
 )
 
 type (
@@ -37,6 +38,14 @@ type (
 // Function to send data to the MNO endpoint. It accepts a value of type
 // MNOPayload and returns a value of type MNOResponse and an error if any.
 func (api *APICONTEXT) MobileCheckout(mnopayload MNOPayload) (*MNOResponse, error) {
+
+	v := reflect.ValueOf(mnopayload)
+
+	for i := 0; i < v.NumField(); i++ {
+		if v.Field(i).String() == "" {
+			return nil, fmt.Errorf("(MNO) Error: Field %v is required.", v.Type().Field(i).Name)
+		}
+	}
 
 	jsonParameters, err := json.Marshal(mnopayload)
 
