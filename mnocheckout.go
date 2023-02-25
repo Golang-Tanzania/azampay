@@ -45,7 +45,7 @@ func (api *APICONTEXT) MobileCheckout(mnopayload MNOPayload) (*MNOResponse, erro
 
 	for i := 0; i < v.NumField(); i++ {
 		if v.Field(i).String() == "" {
-			return nil, fmt.Errorf("(MNO) Error: Field %v is required.", v.Type().Field(i).Name)
+			return nil, fmt.Errorf("(MNO Checkout) Error: Field '%v' is required.", v.Type().Field(i).Name)
 		}
 	}
 
