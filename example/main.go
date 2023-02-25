@@ -29,6 +29,13 @@ func main() {
 	exampleMobileCheckout.ExternalID = "123"
 	exampleMobileCheckout.Provider = "TIGO"
 
+	exampleAdditionalProperties := GoAzam.AdditionalProperties{
+		Property1: "Something",
+		Property2: "Something else",
+	}
+
+	exampleMobileCheckout.AdditionalProperties = exampleAdditionalProperties
+
 	mnoResult, err := transactionTester.MobileCheckout(exampleMobileCheckout)
 
 	if err != nil {
