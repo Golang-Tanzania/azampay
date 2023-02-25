@@ -46,7 +46,7 @@ func (api *APICONTEXT) GetProvider(phoneNumber string) string {
 		return "Mpesa"
 	} else if phoneCode == "064" || phoneCode == "077" { //Zantel
 		return "Tigo" //@@Since Zantel and Tigo are one Company
-	} else if phoneCode == "062" { //Halopesa
+	} else if phoneCode == "062" || phoneCode == "061" { //Halopesa
 		return "Halopesa"
 	} else if phoneCode == "068" || phoneCode == "069" || phoneCode == "078" { //Airtel
 		return "Airtel"
