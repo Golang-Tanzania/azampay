@@ -22,6 +22,8 @@ type (
 		ExternalID string `json:"externalId"`
 		// Only providers available are Airtel, Tigo, Halopesa and Azampesa (required)
 		Provider string `json:"provider"`
+		// This is additional data you can provide (Optional)
+		AdditionalProperties AdditionalProperties `json:"additionalProperties"`
 	}
 
 	// Data received from the server after a valid transaction
