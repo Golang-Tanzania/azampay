@@ -29,6 +29,7 @@ func main() {
 	exampleMobileCheckout.ExternalID = "123"
 	exampleMobileCheckout.Provider = "TIGO"
 
+	// The additional properties field are optional
 	exampleAdditionalProperties := GoAzam.AdditionalProperties{
 		Property1: "Something",
 		Property2: "Something else",
