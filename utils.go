@@ -27,7 +27,7 @@ type APICONTEXT struct {
 
 // A helper struct to read values from the
 // config.json file
-type keys struct {
+type AzamCredentials struct {
 	AppName      string
 	ClientId     string
 	ClientSecret string

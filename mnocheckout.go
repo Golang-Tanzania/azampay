@@ -57,7 +57,7 @@ func (api *APICONTEXT) MobileCheckout(mnopayload MNOPayload) (*MNOResponse, erro
 
 	url := api.BaseURL + "/azampay/mno/checkout"
 
-	req, err := http.NewRequest("POST", url, bytes.NewBuffer([]byte(jsonParameters)))
+	req, err := http.NewRequest("POST", url, bytes.NewBuffer(jsonParameters))
 
 	bearer := fmt.Sprintf("Bearer %v", api.Bearer)
 

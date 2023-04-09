@@ -116,7 +116,7 @@ func (api *APICONTEXT) LoadKeys(file string) error {
 		return err
 	}
 
-	var readKeys keys
+	var readKeys AzamCredentials
 
 	err = json.Unmarshal(configKeys, &readKeys)
 
