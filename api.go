@@ -1,6 +1,6 @@
 package azampay
 
-func NewAzamPay(keys AzamCredentials) *AzamPay {
+func NewAzamPay(keys Credentials) *AzamPay {
 	api := &AzamPay{
 		appName:      keys.AppName,
 		clientID:     keys.ClientId,

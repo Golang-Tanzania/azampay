@@ -9,7 +9,7 @@ import (
 
 func main() {
 	// initialize
-	transactionTester := azampay.NewAzamPay(azampay.AzamCredentials{
+	transactionTester := azampay.NewAzamPay(azampay.Credentials{
 		AppName:      os.Getenv("AZAM_APP_NAME"),
 		ClientId:     os.Getenv("AZAM_CLIENT_ID"),
 		ClientSecret: os.Getenv("AZAM_SECRET"),

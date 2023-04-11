@@ -27,7 +27,7 @@ type AzamPay struct {
 
 // A helper struct to read values from the
 // config.json file
-type AzamCredentials struct {
+type Credentials struct {
 	AppName      string
 	ClientId     string
 	ClientSecret string
