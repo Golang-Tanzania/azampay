@@ -4,12 +4,12 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/kateile/GoAzam"
+	"github.com/kateile/go-azampay"
 )
 
 func main() {
 	// initialize
-	transactionTester := GoAzam.NewAzamPay(GoAzam.AzamCredentials{
+	transactionTester := azampay.NewAzamPay(azampay.AzamCredentials{
 		AppName:      os.Getenv("AZAM_APP_NAME"),
 		ClientId:     os.Getenv("AZAM_CLIENT_ID"),
 		ClientSecret: os.Getenv("AZAM_SECRET"),
@@ -22,7 +22,7 @@ func main() {
 	}
 
 	// example mobile checkout
-	var exampleMobileCheckout GoAzam.MNOPayload
+	var exampleMobileCheckout azampay.MNOPayload
 
 	exampleMobileCheckout.AccountNumber = "0700000000"
 	exampleMobileCheckout.Amount = "2000"
@@ -31,7 +31,7 @@ func main() {
 	exampleMobileCheckout.Provider = "TIGO"
 
 	// The additional properties field are optional
-	exampleAdditionalProperties := GoAzam.AdditionalProperties{
+	exampleAdditionalProperties := azampay.AdditionalProperties{
 		Property1: "Something",
 		Property2: "Something else",
 	}
@@ -50,7 +50,7 @@ func main() {
 	fmt.Println(mnoResult.TransactionID)
 
 	// example bank checkout
-	var exampleBankCheckout GoAzam.BankCheckoutPayload
+	var exampleBankCheckout azampay.BankCheckoutPayload
 
 	exampleBankCheckout.Amount = "10000"
 	exampleBankCheckout.CurrencyCode = "TZS"
@@ -73,7 +73,7 @@ func main() {
 	fmt.Println(bankResult.Data.Properties.ReferenceID)
 
 	// example Callback
-	var exampleCallback GoAzam.CallbackPayload
+	var exampleCallback azampay.CallbackPayload
 
 	exampleCallback.MSISDN = "0178334"
 	exampleCallback.Amount = "2000"
@@ -111,7 +111,7 @@ func main() {
 
 	// example Post checkout
 
-	var examplePostCheckout GoAzam.PostCheckoutPayload
+	var examplePostCheckout azampay.PostCheckoutPayload
 
 	examplePostCheckout.AppName = "example"
 	examplePostCheckout.Amount = "10000"
@@ -126,7 +126,7 @@ func main() {
 	examplePostCheckout.VendorID = "e9b57fab-1850-44d4-8499-71fd15c845a0"
 
 	// Need to make list of shopping items if any
-	shoppingList := []GoAzam.Item{
+	shoppingList := []azampay.Item{
 		{Name: "Mandazi"},
 		{Name: "Sambusa"},
 		{Name: "Mkate"},

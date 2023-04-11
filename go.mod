@@ -1,3 +1,3 @@
-module github.com/kateile/GoAzam
+module github.com/kateile/go-azampay
 
 go 1.20

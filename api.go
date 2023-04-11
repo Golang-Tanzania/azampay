@@ -1,4 +1,4 @@
-package GoAzam
+package azampay
 
 func NewAzamPay(keys AzamCredentials) *AzamPay {
 	api := &AzamPay{

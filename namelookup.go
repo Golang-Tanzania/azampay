@@ -1,4 +1,4 @@
-package GoAzam
+package azampay
 
 // The endpoint to lookup the name associated with
 // a bank account or mobile money

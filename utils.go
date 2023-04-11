@@ -1,4 +1,4 @@
-package GoAzam
+package azampay
 
 // Base URLs
 const (
@@ -13,7 +13,7 @@ const (
 	ProductionAuthURL = "https://authenticator.azampay.co.tz/AppRegistration/GenerateToken"
 )
 
-// This will be the API type to initialize
+// AzamPay This will be the API type to initialize
 // config variables and hold the bearer token
 type AzamPay struct {
 	appName      string
