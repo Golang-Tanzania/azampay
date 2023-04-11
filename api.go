@@ -1,7 +1,7 @@
 package GoAzam
 
-func NewAPI(keys AzamCredentials) *APICONTEXT {
-	api := &APICONTEXT{
+func NewAzamPay(keys AzamCredentials) *AzamPay {
+	api := &AzamPay{
 		appName:      keys.AppName,
 		clientID:     keys.ClientId,
 		clientSecret: keys.ClientSecret,

@@ -9,7 +9,7 @@ import (
 func main() {
 
 	// initialize
-	var transactionTester GoAzam.APICONTEXT
+	var transactionTester GoAzam.AzamPay
 
 	if err := transactionTester.LoadKeys("config.json"); err != nil {
 		fmt.Println(err)

@@ -64,7 +64,7 @@ type (
 // Function to access the bank checkout endpoint. It accepts a parameter of
 // type BankCheckoutPayload and returns a value of type BankCheckoutResponse.
 // and an error if any.
-func (api *APICONTEXT) BankCheckout(bankPayload BankCheckoutPayload) (*BankCheckoutResponse, error) {
+func (api *AzamPay) BankCheckout(bankPayload BankCheckoutPayload) (*BankCheckoutResponse, error) {
 
 	v := reflect.ValueOf(bankPayload)
 

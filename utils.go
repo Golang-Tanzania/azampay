@@ -15,7 +15,7 @@ const (
 
 // This will be the API type to initialize
 // config variables and hold the bearer token
-type APICONTEXT struct {
+type AzamPay struct {
 	appName      string
 	clientID     string
 	clientSecret string
@@ -43,7 +43,7 @@ type AdditionalProperties struct {
 
 // This will return provider when phonenumber is passed(07XX-XXX-XXX)
 // Need to add 'Azampesa'
-// func (api *APICONTEXT) GetProvider(phoneNumber string) string {
+// func (api *AzamPay) GetProvider(phoneNumber string) string {
 //
 // 	phoneCode := phoneNumber[:3]
 //

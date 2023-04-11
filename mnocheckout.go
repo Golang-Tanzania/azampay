@@ -39,7 +39,7 @@ type (
 
 // Function to send data to the MNO endpoint. It accepts a value of type
 // MNOPayload and returns a value of type MNOResponse and an error if any.
-func (api *APICONTEXT) MobileCheckout(mnopayload MNOPayload) (*MNOResponse, error) {
+func (api *AzamPay) MobileCheckout(mnopayload MNOPayload) (*MNOResponse, error) {
 
 	v := reflect.ValueOf(mnopayload)
 

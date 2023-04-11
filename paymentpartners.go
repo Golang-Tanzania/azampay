@@ -41,7 +41,7 @@ type (
 
 // A function to access the payment partners endpoint. It will return an Error
 // and a value of type PaymentPartners.
-func (api *APICONTEXT) PaymentPartners() (PaymentPartners, error) {
+func (api *AzamPay) PaymentPartners() (PaymentPartners, error) {
 
 	url := api.BaseURL + "/api/v1/Partner/GetPaymentPartners"
 

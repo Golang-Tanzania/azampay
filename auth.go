@@ -15,7 +15,7 @@ import (
 // be the mode of the app, either Sandbox or Production.
 // The default is Sandbox. It will return an error if token
 // generation was unsuccessful
-func (api *APICONTEXT) GenerateSession(mode string) error {
+func (api *AzamPay) GenerateSession(mode string) error {
 	var authURL string
 	if strings.ToLower(mode) == "production" {
 		api.BaseURL = ProductionBaseURL
@@ -108,7 +108,7 @@ func (api *APICONTEXT) GenerateSession(mode string) error {
 
 // A function to read keys from a config.json file.
 // It will return an error if any.
-func (api *APICONTEXT) LoadKeys(file string) error {
+func (api *AzamPay) LoadKeys(file string) error {
 
 	configKeys, err := ioutil.ReadFile(file)
 
