@@ -2,18 +2,19 @@ package main
 
 import (
 	"fmt"
+	"os"
 
 	"github.com/kateile/GoAzam"
 )
 
 func main() {
-
 	// initialize
-	var transactionTester GoAzam.AzamPay
-
-	if err := transactionTester.LoadKeys("config.json"); err != nil {
-		fmt.Println(err)
-	}
+	transactionTester := GoAzam.NewAzamPay(GoAzam.AzamCredentials{
+		AppName:      os.Getenv("AZAM_APP_NAME"),
+		ClientId:     os.Getenv("AZAM_CLIENT_ID"),
+		ClientSecret: os.Getenv("AZAM_SECRET"),
+		Token:        os.Getenv("AZAM_TOKEN"),
+	})
 
 	if err := transactionTester.GenerateSession("sandbox"); err != nil {
 		fmt.Println(err)

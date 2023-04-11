@@ -5,7 +5,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
-	"io/ioutil"
 	"net/http"
 	"strings"
 )
@@ -104,30 +103,4 @@ func (api *AzamPay) GenerateSession(mode string) error {
 
 	}
 
-}
-
-// A function to read keys from a config.json file.
-// It will return an error if any.
-func (api *AzamPay) LoadKeys(file string) error {
-
-	configKeys, err := ioutil.ReadFile(file)
-
-	if err != nil {
-		return err
-	}
-
-	var readKeys AzamCredentials
-
-	err = json.Unmarshal(configKeys, &readKeys)
-
-	if err != nil {
-		return err
-	}
-
-	api.appName = readKeys.AppName
-	api.clientID = readKeys.ClientId
-	api.clientSecret = readKeys.ClientSecret
-	api.token = readKeys.Token
-
-	return nil
 }
