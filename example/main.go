@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 
-	"github.com/Golang-Tanzania/GoAzam"
+	"github.com/kateile/GoAzam"
 )
 
 func main() {

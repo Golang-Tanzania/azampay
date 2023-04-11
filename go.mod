@@ -1,3 +1,3 @@
-module github.com/Golang-Tanzania/GoAzam
+module github.com/kateile/GoAzam
 
-go 1.18
+go 1.20
