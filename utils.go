@@ -23,6 +23,7 @@ type AzamPay struct {
 	BaseURL      string
 	Bearer       string
 	Expiry       string
+	IsLive       bool
 }
 
 // A helper struct to read values from the

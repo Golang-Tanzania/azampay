@@ -6,24 +6,18 @@ import (
 	"fmt"
 	"io"
 	"net/http"
-	"strings"
 )
 
-// GenerateSessionID() generates a token that will enable
-// access to the endpoints. It accepts a string which will
-// be the mode of the app, either Sandbox or Production.
-// The default is Sandbox. It will return an error if token
-// generation was unsuccessful
-func (api *AzamPay) GenerateSession(mode string) error {
+// GenerateSession generates a token that will enable
+// access to the endpoints.
+func (api *AzamPay) GenerateSession() error {
 	var authURL string
-	if strings.ToLower(mode) == "production" {
+	if api.IsLive {
 		api.BaseURL = ProductionBaseURL
 		authURL = ProductionAuthURL
-	} else if strings.ToLower(mode) == "sandbox" {
+	} else {
 		api.BaseURL = SandboxBaseURL
 		authURL = SandboxAuthURL
-	} else {
-		return fmt.Errorf("Error: Choose between sandbox or production")
 	}
 
 	parameters := fmt.Sprintf(`{"appName":"%v", "clientId": "%v", "clientSecret": "%v"}`, api.appName, api.clientID, api.clientSecret)

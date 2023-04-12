@@ -9,14 +9,14 @@ import (
 
 func main() {
 	// initialize
-	transactionTester := azampay.NewAzamPay(azampay.Credentials{
+	transactionTester := azampay.NewAzamPay(false, azampay.Credentials{
 		AppName:      os.Getenv("AZAM_APP_NAME"),
 		ClientId:     os.Getenv("AZAM_CLIENT_ID"),
 		ClientSecret: os.Getenv("AZAM_SECRET"),
 		Token:        os.Getenv("AZAM_TOKEN"),
 	})
 
-	if err := transactionTester.GenerateSession("sandbox"); err != nil {
+	if err := transactionTester.GenerateSession(); err != nil {
 		fmt.Println(err)
 		return
 	}
