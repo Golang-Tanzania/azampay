@@ -9,7 +9,7 @@ import (
 )
 
 type (
-	// Payload to be sent to the callback endpoint
+	// CallbackPayload Payload to be sent to the callback endpoint
 	CallbackPayload struct {
 		// This is amount that will be charged from the given account.
 		Amount string `json:"amount"`
@@ -29,14 +29,14 @@ type (
 		UtilityRef string `json:"utilityref"`
 	}
 
-	// There is no documentation on how the response is shaped, but I am assuming there will be a success field
+	// CallbackResponse There is no documentation on how the response is shaped, but I am assuming there will be a success field
 	CallbackResponse struct {
 		// Will be true is successful
 		Success bool `json:"success"`
 	}
 )
 
-// Function to access the callback endpoint. It accepts a parameter of type Callback,
+// Callback Function to access the callback endpoint. It accepts a parameter of type Callback,
 // an absolute URL to the checkout endpoint and will return a value of type CallbackResponse
 // and an error if any
 func (api *AzamPay) Callback(callbackpayload CallbackPayload, url string) (*CallbackResponse, error) {
@@ -47,7 +47,7 @@ func (api *AzamPay) Callback(callbackpayload CallbackPayload, url string) (*Call
 		return nil, err
 	}
 
-	req, err := http.NewRequest("POST", url, bytes.NewBuffer([]byte(jsonParameters)))
+	req, err := http.NewRequest("POST", url, bytes.NewBuffer(jsonParameters))
 
 	bearer := fmt.Sprintf("Bearer %v", api.Bearer)
 

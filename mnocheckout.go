@@ -10,7 +10,7 @@ import (
 )
 
 type (
-	// Payload to send to the MNO Checkout endpoint
+	// MNOPayload Payload to send to the MNO Checkout endpoint
 	MNOPayload struct {
 		// This is the account number/MSISDN that consumer will provide. The amount will be deducted from this account (required)
 		AccountNumber string `json:"accountNumber"`
@@ -23,10 +23,10 @@ type (
 		// Only providers available are Airtel, Tigo, Halopesa and Azampesa (required)
 		Provider string `json:"provider"`
 		// This is additional data you can provide (Optional)
-		AdditionalProperties AdditionalProperties `json:"additionalProperties"`
+		AdditionalProperties interface{} `json:"additionalProperties"`
 	}
 
-	// Data received from the server after a valid transaction
+	// MNOResponse Data received from the server after a valid transaction
 	MNOResponse struct {
 		// Will be true is successful
 		Success bool `json:"success"`
@@ -37,7 +37,7 @@ type (
 	}
 )
 
-// Function to send data to the MNO endpoint. It accepts a value of type
+// MobileCheckout Function to send data to the MNO endpoint. It accepts a value of type
 // MNOPayload and returns a value of type MNOResponse and an error if any.
 func (api *AzamPay) MobileCheckout(mnopayload MNOPayload) (*MNOResponse, error) {
 
@@ -45,7 +45,7 @@ func (api *AzamPay) MobileCheckout(mnopayload MNOPayload) (*MNOResponse, error) 
 
 	for i := 0; i < v.NumField(); i++ {
 		if v.Field(i).String() == "" {
-			return nil, fmt.Errorf("(MNO Checkout) Error: Field '%v' is required.", v.Type().Field(i).Name)
+			return nil, fmt.Errorf("(MNO Checkout) Error: Field '%v' is required", v.Type().Field(i).Name)
 		}
 	}
 

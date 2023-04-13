@@ -1,6 +1,6 @@
 package azampay
 
-// The endpoint to lookup the name associated with
+// NameLookup The endpoint to lookup the name associated with
 // a bank account or mobile money
 type NameLookup struct {
 	// Bank account number or mobile money number

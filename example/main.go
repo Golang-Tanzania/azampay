@@ -31,9 +31,12 @@ func main() {
 	exampleMobileCheckout.Provider = "TIGO"
 
 	// The additional properties field are optional
-	exampleAdditionalProperties := azampay.AdditionalProperties{
-		Property1: "Something",
-		Property2: "Something else",
+	exampleAdditionalProperties := struct {
+		Name string `json:"name"`
+		Type string `json:"type"`
+	}{
+		Name: "Sammy",
+		Type: "Shark",
 	}
 
 	exampleMobileCheckout.AdditionalProperties = exampleAdditionalProperties
@@ -41,8 +44,7 @@ func main() {
 	mnoResult, err := transactionTester.MobileCheckout(exampleMobileCheckout)
 
 	if err != nil {
-		fmt.Println(err)
-		return
+		panic(err)
 	}
 
 	fmt.Println(mnoResult.Success)
