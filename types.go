@@ -1,4 +1,4 @@
-package types
+package azampay
 
 // Update Payload to be sent to the callback endpoint
 type Update struct {
