@@ -9,14 +9,16 @@ import (
 
 func main() {
 	// initialize
-	transactionTester := azampay.NewAzamPay(false, azampay.Credentials{
+	api := azampay.NewAzamPay(false, azampay.Credentials{
 		AppName:      os.Getenv("AZAM_APP_NAME"),
 		ClientId:     os.Getenv("AZAM_CLIENT_ID"),
 		ClientSecret: os.Getenv("AZAM_SECRET"),
 		Token:        os.Getenv("AZAM_TOKEN"),
 	})
 
-	if err := transactionTester.GenerateSession(); err != nil {
+	api.Debug = true
+
+	if err := api.GenerateSession(); err != nil {
 		fmt.Println(err)
 		return
 	}
@@ -41,15 +43,11 @@ func main() {
 
 	exampleMobileCheckout.AdditionalProperties = exampleAdditionalProperties
 
-	mnoResult, err := transactionTester.MobileCheckout(exampleMobileCheckout)
+	_, err := api.MobileCheckout(exampleMobileCheckout)
 
 	if err != nil {
 		panic(err)
 	}
-
-	fmt.Println(mnoResult.Success)
-	fmt.Println(mnoResult.Message)
-	fmt.Println(mnoResult.TransactionID)
 
 	// example bank checkout
 	var exampleBankCheckout azampay.BankCheckoutPayload
@@ -63,20 +61,16 @@ func main() {
 	exampleBankCheckout.Provider = "CRDB"
 	exampleBankCheckout.ReferenceID = "123"
 
-	bankResult, err := transactionTester.BankCheckout(exampleBankCheckout)
+	_, err = api.BankCheckout(exampleBankCheckout)
 
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
 
-	fmt.Println(bankResult.Success)
-	fmt.Println(bankResult.Message)
-	fmt.Println(bankResult.Data.Properties.ReferenceID)
-
 	// example get Payment Partners
 
-	examplePaymentPartners, err := transactionTester.PaymentPartners()
+	examplePaymentPartners, err := api.PaymentPartners()
 
 	if err != nil {
 		fmt.Println(err)
@@ -111,7 +105,7 @@ func main() {
 	}
 	examplePostCheckout.Cart.Items = append(examplePostCheckout.Cart.Items, shoppingList...)
 
-	postCheckoutURL, err := transactionTester.PostCheckout(examplePostCheckout)
+	postCheckoutURL, err := api.PostCheckout(examplePostCheckout)
 
 	if err != nil {
 		fmt.Println(err)

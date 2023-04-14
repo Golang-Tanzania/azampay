@@ -1,8 +1,11 @@
 package azampay
 
 import (
+	"bytes"
 	"encoding/json"
 	"errors"
+	"fmt"
+	"io"
 	"net/http"
 )
 
@@ -29,6 +32,7 @@ type AzamPay struct {
 	Expiry       string
 	IsLive       bool
 	Buffer       int `json:"buffer"`
+	Debug        bool
 }
 
 // Credentials A helper struct to read values from the
@@ -119,4 +123,114 @@ func (api *AzamPay) HandleUpdate(r *http.Request) (*Update, error) {
 	}
 
 	return &update, nil
+}
+
+// MobileCheckout Function to send data to the MNO endpoint. It accepts a value of type
+// MNOPayload and returns a value of type MNOResponse and an error if any.
+func (api *AzamPay) MobileCheckout(payload MNOPayload) (*MNOResponse, error) {
+	return Request[MNOResponse](api, &payload)
+}
+
+func (api *AzamPay) BankCheckout(payload BankCheckoutPayload) (*BankCheckoutResponse, error) {
+	return Request[BankCheckoutResponse](api, &payload)
+}
+
+type Params interface {
+	data() interface{}
+	endpoint() string
+}
+
+// Request TODO https://github.com/golang/go/issues/49085
+// Todo redo this with better alternative
+func Request[T any](api *AzamPay, payload Params) (*T, error) {
+	//v := reflect.ValueOf(payload)
+
+	//for i := 0; i < v.NumField(); i++ {
+	//	if v.Field(i).String() == "" {
+	//		return nil, fmt.Errorf("(Bank Checkout) Error: Field '%v' is required.", v.Type().Field(i).Name)
+	//	}
+	//}
+
+	jsonParameters, err := json.Marshal(payload.data())
+
+	if err != nil {
+		return nil, err
+	}
+
+	url := api.BaseURL + payload.endpoint()
+
+	if api.Debug {
+		fmt.Printf("endpoint: %s\n", payload.endpoint())
+		fmt.Printf("data: %s\n", string(jsonParameters))
+	}
+
+	req, err := http.NewRequest("POST", url, bytes.NewBuffer(jsonParameters))
+	if err != nil {
+		return nil, err
+	}
+
+	bearer := fmt.Sprintf("Bearer %v", api.Bearer)
+
+	req.Header.Set("Authorization", bearer)
+	req.Header.Set("X-API-KEY", api.token)
+	req.Header.Set("Content-Type", "application/json")
+
+	if err != nil {
+		return nil, err
+	}
+
+	client := &http.Client{}
+
+	resp, err := client.Do(req)
+
+	if err != nil {
+		return nil, err
+	}
+
+	defer resp.Body.Close()
+
+	body, err := io.ReadAll(resp.Body)
+
+	if err != nil {
+		return nil, err
+	}
+
+	var response *T
+
+	if resp.StatusCode == 200 {
+		decodeErr := json.NewDecoder(bytes.NewReader(body)).Decode(&response)
+		if decodeErr != nil {
+			if decodeErr == io.EOF {
+				return nil, fmt.Errorf("(Bank Checkout) Error: Server returned an empty body.")
+			}
+			return nil, decodeErr
+		}
+
+		if api.Debug {
+			fmt.Printf("response: %+v\n", response)
+		}
+
+		return response, nil
+
+	} else if resp.StatusCode == 400 {
+		var badRequest *BadRequestError
+
+		if err := json.NewDecoder(bytes.NewReader(body)).Decode(&badRequest); err != nil {
+			return nil, fmt.Errorf("(Bank Checkout) Error decoding badrequest: %w", err)
+		}
+
+		return nil, fmt.Errorf(badRequest.Error())
+	} else if resp.StatusCode == 417 {
+		var unauthorized *Unauthorized
+
+		if err := json.NewDecoder(bytes.NewReader(body)).Decode(&unauthorized); err != nil {
+			return nil, fmt.Errorf("(Bank Checkout) Error decoding unauthorized err: %w", err)
+		}
+
+		return nil, fmt.Errorf(unauthorized.Error())
+	} else if resp.StatusCode == 500 {
+		return nil, fmt.Errorf("(Bank Checkout) Internal Server Error: status code 500")
+	} else {
+		return nil, fmt.Errorf("(Bank Checkout) Error: status code %d", resp.StatusCode)
+	}
 }
