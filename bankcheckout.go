@@ -10,7 +10,7 @@ import (
 )
 
 type (
-	// Payload to send to the bank checkout endpoint
+	// BankCheckoutPayload Payload to send to the bank checkout endpoint
 	BankCheckoutPayload struct {
 		// This is amount that will be charged from the given account (required)
 		Amount string `json:"amount"`
@@ -37,7 +37,7 @@ type (
 		ReferenceID string `json:"referenceId"`
 
 		// This is additional data you can provide (Optional)
-		AdditionalProperties AdditionalProperties `json:"additionalProperties"`
+		AdditionalProperties interface{} `json:"additionalProperties,omitempty"`
 	}
 
 	ReferenceID struct {
@@ -50,7 +50,7 @@ type (
 		Properties ReferenceID `json:"properties"`
 	}
 
-	// Data received from the server after a successful transaction
+	// BankCheckoutResponse Data received from the server after a successful transaction
 	BankCheckoutResponse struct {
 		// will return true if successful
 		Success bool `json:"success"`
@@ -61,7 +61,7 @@ type (
 	}
 )
 
-// Function to access the bank checkout endpoint. It accepts a parameter of
+// BankCheckout Function to access the bank checkout endpoint. It accepts a parameter of
 // type BankCheckoutPayload and returns a value of type BankCheckoutResponse.
 // and an error if any.
 func (api *AzamPay) BankCheckout(bankPayload BankCheckoutPayload) (*BankCheckoutResponse, error) {

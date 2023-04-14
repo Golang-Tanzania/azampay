@@ -9,7 +9,7 @@ import (
 )
 
 type (
-	// Payload that will be received from the payment partner payload.
+	// PaymentPartner Payload that will be received from the payment partner payload.
 	PaymentPartner struct {
 		// ID of ther partner
 		ID string `json:"id"`

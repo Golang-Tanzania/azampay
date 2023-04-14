@@ -74,30 +74,6 @@ func main() {
 	fmt.Println(bankResult.Message)
 	fmt.Println(bankResult.Data.Properties.ReferenceID)
 
-	// example Callback
-	var exampleCallback azampay.CallbackPayload
-
-	exampleCallback.MSISDN = "0178334"
-	exampleCallback.Amount = "2000"
-	exampleCallback.Message = "testing callback"
-	exampleCallback.UtilityRef = "1282-123"
-	exampleCallback.Operator = "Airtel"
-	exampleCallback.Reference = "123-123"
-	exampleCallback.TransactionStatus = "success"
-	exampleCallback.SubmerchantAcc = "01723113"
-
-	// This domain should be the absolute path to your callback URL.
-	// You can use the example server in this repository to test this endpoint.
-	url := "http://localhost:8000/api/v1/Checkout/Callback"
-	callbackResult, err := transactionTester.Callback(exampleCallback, url)
-
-	if err != nil {
-		fmt.Println(err)
-		return
-	}
-
-	fmt.Println(callbackResult.Success)
-
 	// example get Payment Partners
 
 	examplePaymentPartners, err := transactionTester.PaymentPartners()
