@@ -56,75 +56,6 @@ func NewAzamPay(isLive bool, keys Credentials) *AzamPay {
 	return api
 }
 
-// UpdatesChannel is the channel for getting updates.
-type UpdatesChannel <-chan Update
-
-// Clear discards all unprocessed incoming updates.
-func (ch UpdatesChannel) Clear() {
-	for len(ch) != 0 {
-		<-ch
-	}
-}
-
-// ListenForWebhook registers a http handler for a webhook.
-func (api *AzamPay) ListenForWebhook(pattern string) UpdatesChannel {
-	ch := make(chan Update, api.Buffer)
-
-	http.HandleFunc(pattern, func(w http.ResponseWriter, r *http.Request) {
-		update, err := api.HandleUpdate(r)
-
-		if err != nil {
-			errMsg, _ := json.Marshal(map[string]string{"error": err.Error()})
-			w.WriteHeader(http.StatusBadRequest)
-			w.Header().Set("Content-Type", "application/json")
-			_, _ = w.Write(errMsg)
-			return
-		}
-
-		ch <- *update
-	})
-
-	return ch
-}
-
-// ListenForWebhookRespReqFormat registers a http handler for a single incoming webhook.
-func (api *AzamPay) ListenForWebhookRespReqFormat(w http.ResponseWriter, r *http.Request) UpdatesChannel {
-	ch := make(chan Update, api.Buffer)
-
-	func(w http.ResponseWriter, r *http.Request) {
-		defer close(ch)
-
-		update, err := api.HandleUpdate(r)
-		if err != nil {
-			errMsg, _ := json.Marshal(map[string]string{"error": err.Error()})
-			w.WriteHeader(http.StatusBadRequest)
-			w.Header().Set("Content-Type", "application/json")
-			_, _ = w.Write(errMsg)
-			return
-		}
-
-		ch <- *update
-	}(w, r)
-
-	return ch
-}
-
-// HandleUpdate parses and returns update received via webhook
-func (api *AzamPay) HandleUpdate(r *http.Request) (*Update, error) {
-	if r.Method != http.MethodPost {
-		err := errors.New("wrong HTTP method required POST")
-		return nil, err
-	}
-
-	var update Update
-	err := json.NewDecoder(r.Body).Decode(&update)
-	if err != nil {
-		return nil, err
-	}
-
-	return &update, nil
-}
-
 // MobileCheckout Function to send data to the MNO endpoint. It accepts a value of type
 // MNOPayload and returns a value of type MNOResponse and an error if any.
 func (api *AzamPay) MobileCheckout(payload MNOPayload) (*MNOResponse, error) {
@@ -241,4 +172,73 @@ func Request[T any](api *AzamPay, payload Params) (*T, error) {
 	} else {
 		return nil, fmt.Errorf("(Bank Checkout) Error: status code %d", resp.StatusCode)
 	}
+}
+
+// UpdatesChannel is the channel for getting updates.
+type UpdatesChannel <-chan Update
+
+// Clear discards all unprocessed incoming updates.
+func (ch UpdatesChannel) Clear() {
+	for len(ch) != 0 {
+		<-ch
+	}
+}
+
+// ListenForWebhook registers a http handler for a webhook.
+func (api *AzamPay) ListenForWebhook(pattern string) UpdatesChannel {
+	ch := make(chan Update, api.Buffer)
+
+	http.HandleFunc(pattern, func(w http.ResponseWriter, r *http.Request) {
+		update, err := api.HandleUpdate(r)
+
+		if err != nil {
+			errMsg, _ := json.Marshal(map[string]string{"error": err.Error()})
+			w.WriteHeader(http.StatusBadRequest)
+			w.Header().Set("Content-Type", "application/json")
+			_, _ = w.Write(errMsg)
+			return
+		}
+
+		ch <- *update
+	})
+
+	return ch
+}
+
+// ListenForWebhookRespReqFormat registers a http handler for a single incoming webhook.
+func (api *AzamPay) ListenForWebhookRespReqFormat(w http.ResponseWriter, r *http.Request) UpdatesChannel {
+	ch := make(chan Update, api.Buffer)
+
+	func(w http.ResponseWriter, r *http.Request) {
+		defer close(ch)
+
+		update, err := api.HandleUpdate(r)
+		if err != nil {
+			errMsg, _ := json.Marshal(map[string]string{"error": err.Error()})
+			w.WriteHeader(http.StatusBadRequest)
+			w.Header().Set("Content-Type", "application/json")
+			_, _ = w.Write(errMsg)
+			return
+		}
+
+		ch <- *update
+	}(w, r)
+
+	return ch
+}
+
+// HandleUpdate parses and returns update received via webhook
+func (api *AzamPay) HandleUpdate(r *http.Request) (*Update, error) {
+	if r.Method != http.MethodPost {
+		err := errors.New("wrong HTTP method required POST")
+		return nil, err
+	}
+
+	var update Update
+	err := json.NewDecoder(r.Body).Decode(&update)
+	if err != nil {
+		return nil, err
+	}
+
+	return &update, nil
 }
