@@ -135,8 +135,12 @@ func (api *AzamPay) BankCheckout(payload BankCheckoutPayload) (*BankCheckoutResp
 	return Request[BankCheckoutResponse](api, &payload)
 }
 
-func (api *AzamPay) Disburse(payload DisbursePayload) (*DisburseResponse, error) {
-	return Request[DisburseResponse](api, &payload)
+func (api *AzamPay) NameLookup(payload NameLookupPayload) (*NameLookupResponse, error) {
+	return Request[NameLookupResponse](api, &payload)
+}
+
+func (api *AzamPay) CreateTransfer(payload CreateTransferPayload) (*CreateTransferResponse, error) {
+	return Request[CreateTransferResponse](api, &payload)
 }
 
 type Params interface {

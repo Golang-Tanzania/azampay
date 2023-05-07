@@ -94,13 +94,34 @@ type BankCheckoutResponse struct {
 	Data Properties `json:"data"`
 }
 
-// NameLookup The endpoint to lookup the name associated with
+// NameLookupPayload The endpoint to lookup the name associated with
 // a bank account or mobile money
-type NameLookup struct {
+type NameLookupPayload struct {
 	// Bank account number or mobile money number
 	BankName string `json:"bankName"`
 	// Bank name or mobile money name associated with the account
 	AccountNumber string `json:"accountNumber"`
+}
+
+func (p *NameLookupPayload) data() interface{} {
+	return p
+}
+
+func (p *NameLookupPayload) endpoint() string {
+	return "/azampay/namelookup"
+}
+
+type NameLookupResponse struct {
+	// Account number.
+	AccountNumber *string `json:"accountNumber"`
+	// Bank name or Mobile Money name associated with the account.
+	BankName *string `json:"bankName"`
+	// A brief description of the response status.
+	Message *string `json:"message"`
+	// Name associated with the account.
+	Name *string `json:"name"`
+	// A boolean value indicating if the request was successful or not.
+	Success bool `json:"success"`
 }
 
 type Source struct {
@@ -140,9 +161,9 @@ type TransferDetails struct {
 	Date time.Time `json:"date"`
 }
 
-// DisbursePayload Allows for transfer of money from other countries
+// CreateTransferPayload Allows for transfer of money from other countries
 // to Tanzania.
-type DisbursePayload struct {
+type CreateTransferPayload struct {
 	// Contains information about the source account
 	Source Source `json:"source"`
 	// Contains information about the destination account
@@ -155,11 +176,11 @@ type DisbursePayload struct {
 	Remarks string `json:"remarks"`
 }
 
-func (p *DisbursePayload) data() interface{} {
+func (p *CreateTransferPayload) data() interface{} {
 	return p
 }
 
-func (p *DisbursePayload) endpoint() string {
+func (p *CreateTransferPayload) endpoint() string {
 	return "/azampay/createtransfer"
 }
 
@@ -174,7 +195,7 @@ type DisburseResponseObject struct {
 	StatusCode string `json:"statusCode"`
 }
 
-type DisburseResponse = []DisburseResponseObject
+type CreateTransferResponse = []DisburseResponseObject
 
 // Update Payload to be sent to the callback endpoint
 type Update struct {
