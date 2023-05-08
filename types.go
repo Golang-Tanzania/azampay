@@ -26,6 +26,10 @@ func (p *MNOPayload) endpoint() string {
 	return "/azampay/mno/checkout"
 }
 
+func (p *MNOPayload) method() string {
+	return "POST"
+}
+
 // MNOResponse Data received from the server after a valid transaction
 type MNOResponse struct {
 	// Will be true is successful
@@ -74,6 +78,10 @@ func (p *BankCheckoutPayload) endpoint() string {
 	return "/azampay/bank/checkout"
 }
 
+func (p *BankCheckoutPayload) method() string {
+	return "POST"
+}
+
 type ReferenceID struct {
 	// Reference ID of the transaction
 	ReferenceID string `json:"ReferenceID"`
@@ -109,6 +117,10 @@ func (p *NameLookupPayload) data() interface{} {
 
 func (p *NameLookupPayload) endpoint() string {
 	return "/azampay/namelookup"
+}
+
+func (p *NameLookupPayload) method() string {
+	return "POST"
 }
 
 type NameLookupResponse struct {
@@ -182,6 +194,10 @@ func (p *CreateTransferPayload) data() interface{} {
 
 func (p *CreateTransferPayload) endpoint() string {
 	return "/azampay/createtransfer"
+}
+
+func (p *CreateTransferPayload) method() string {
+	return "POST"
 }
 
 type DisburseResponseObject struct {

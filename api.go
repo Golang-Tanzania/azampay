@@ -75,8 +75,9 @@ func (api *AzamPay) CreateTransfer(payload CreateTransferPayload) (*CreateTransf
 }
 
 type Params interface {
-	data() interface{}
-	endpoint() string
+	data() interface{} //For getting data to send
+	endpoint() string  //For getting url for posting data to
+	method() string    //For getting weather its POST or GET
 }
 
 // Request TODO https://github.com/golang/go/issues/49085
@@ -103,7 +104,7 @@ func Request[T any](api *AzamPay, payload Params) (*T, error) {
 		fmt.Printf("data: %s\n", string(jsonParameters))
 	}
 
-	req, err := http.NewRequest("POST", url, bytes.NewBuffer(jsonParameters))
+	req, err := http.NewRequest(payload.method(), url, bytes.NewBuffer(jsonParameters))
 	if err != nil {
 		return nil, err
 	}
