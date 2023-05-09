@@ -14,14 +14,16 @@ import (
 func (api *AzamPay) GenerateSession() error {
 	var authURL string
 	if api.IsLive {
-		api.BaseURL = ProductionBaseURL
 		authURL = ProductionAuthURL
 	} else {
-		api.BaseURL = SandboxBaseURL
 		authURL = SandboxAuthURL
 	}
 
-	parameters := fmt.Sprintf(`{"appName":"%v", "clientId": "%v", "clientSecret": "%v"}`, api.appName, api.clientID, api.clientSecret)
+	parameters := fmt.Sprintf(`{"appName":"%s", "clientId": "%s", "clientSecret": "%s"}`, api.appName, api.clientID, api.clientSecret)
+
+	if api.Debug {
+		fmt.Printf("Posting request to %s\n", authURL)
+	}
 
 	req, err := http.NewRequest("POST", authURL, bytes.NewBuffer([]byte(parameters)))
 
