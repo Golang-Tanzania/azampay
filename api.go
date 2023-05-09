@@ -46,11 +46,20 @@ type Credentials struct {
 }
 
 func NewAzamPay(isLive bool, keys Credentials) *AzamPay {
+	var baseUrl string
+
+	if isLive {
+		baseUrl = ProductionBaseURL
+	} else {
+		baseUrl = SandboxBaseURL
+	}
+
 	api := &AzamPay{
 		appName:      keys.AppName,
 		clientID:     keys.ClientId,
 		clientSecret: keys.ClientSecret,
 		token:        keys.Token,
+		BaseURL:      baseUrl,
 		IsLive:       isLive,
 		Buffer:       100,
 	}
