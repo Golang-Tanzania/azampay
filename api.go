@@ -2,6 +2,7 @@ package azampay
 
 import (
 	"bytes"
+	"crypto/tls"
 	"encoding/json"
 	"errors"
 	"fmt"
@@ -23,16 +24,17 @@ const (
 // AzamPay This will be the API type to initialize
 // config variables and hold the bearer token
 type AzamPay struct {
-	appName      string
-	clientID     string
-	clientSecret string
-	token        string
-	BaseURL      string
-	Bearer       string
-	Expiry       string
-	IsLive       bool
-	Buffer       int `json:"buffer"`
-	Debug        bool
+	appName            string
+	clientID           string
+	clientSecret       string
+	token              string
+	BaseURL            string
+	Bearer             string
+	Expiry             string
+	IsLive             bool
+	Buffer             int `json:"buffer"`
+	Debug              bool
+	InsecureSkipVerify bool
 }
 
 // Credentials A helper struct to read values from the
@@ -119,7 +121,11 @@ func Request[T any](api *AzamPay, payload Params) (*T, error) {
 		return nil, err
 	}
 
-	client := &http.Client{}
+	Transport := &http.Transport{
+		TLSClientConfig: &tls.Config{InsecureSkipVerify: api.InsecureSkipVerify},
+	}
+
+	client := &http.Client{Transport: Transport}
 
 	resp, err := client.Do(req)
 

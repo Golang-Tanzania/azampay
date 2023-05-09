@@ -2,6 +2,7 @@ package azampay
 
 import (
 	"bytes"
+	"crypto/tls"
 	"encoding/json"
 	"fmt"
 	"io"
@@ -30,7 +31,11 @@ func (api *AzamPay) GenerateSession() error {
 		return err
 	}
 
-	client := &http.Client{}
+	Transport := &http.Transport{
+		TLSClientConfig: &tls.Config{InsecureSkipVerify: api.InsecureSkipVerify},
+	}
+
+	client := &http.Client{Transport: Transport}
 
 	resp, err := client.Do(req)
 
