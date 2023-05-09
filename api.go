@@ -111,7 +111,7 @@ func Request[T any](api *AzamPay, payload Params) (*T, error) {
 	url := api.BaseURL + payload.endpoint()
 
 	if api.Debug {
-		fmt.Printf("endpoint: %s\n", payload.endpoint())
+		fmt.Printf("url: %s\n", url)
 		fmt.Printf("data: %s\n", string(jsonParameters))
 	}
 
