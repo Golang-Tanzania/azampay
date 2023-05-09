@@ -2,7 +2,7 @@ name: Release Go Package
 on:
   push:
     tags:
-      - '*'
+      - 'v*.*.*'
 
 jobs:
   release:
@@ -19,5 +19,5 @@ jobs:
       - name: Build and publish package
         uses: actions/upload-artifact@v2
         with:
-          name: ${{ github.ref }}
+          name: ${{github.ref_name}}
           path: ./
