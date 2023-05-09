@@ -3,17 +3,10 @@ on:
   push:
     tags:
       - '*'
-    branches:
-      - main
 
 jobs:
   release:
     runs-on: ubuntu-latest
-    if: |
-      github.event_name == 'push' &&
-      github.event.ref_type == 'tag' &&
-      github.ref == concat('refs/tags/', github.event.ref) &&
-      github.ref == 'refs/tags/' * 'refs/heads/main/*'
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
