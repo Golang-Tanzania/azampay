@@ -344,3 +344,8 @@ If you notice any issues with the package kindly notify us as soon as possible.
 
 - [Avicenna](https://github.com/AvicennaJr)
 - All other [contributors](https://github.com/Golang-Tanzania/GoAzam/graphs/contributors)
+
+
+## License
+
+The MIT License (MIT). Please see [License File](LICENSE) for more information.
