@@ -36,10 +36,10 @@ type keys struct {
 
 // Optional additional properties type
 // That can be added to MNO and Bank checkout
-type AdditionalProperties struct {
-	Property1 any `json:"property1"`
-	Property2 any `json:"property2"`
-}
+// type AdditionalProperties struct {
+// 	Property1 any `json:"property1"`
+// 	Property2 any `json:"property2"`
+// }
 
 // This will return provider when phonenumber is passed(07XX-XXX-XXX)
 // Need to add 'Azampesa'
