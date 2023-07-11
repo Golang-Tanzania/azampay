@@ -13,6 +13,8 @@ const (
 	BankCheckoutEndPoint = "/azampay/bank/checkout"
 	PayPartnersEndPoint  = "/api/v1/Partner/GetPaymentPartners"
 	PostCheckOutEndPoint = "/api/v1/Partner/PostCheckout"
+
+	NameLookupEndPoint = "/azampay/namelookup"
 )
 
 type (
@@ -209,5 +211,20 @@ type (
 		VendorID string `json:"vendorId"`
 		// Name of the vendor (required)
 		VendorName string `json:"vendorName"`
+	}
+
+	NameLookupPayload struct {
+		// Bank account number or mobile money number
+		BankName string `json:"bankName"`
+		// Bank name or mobile money name associated with the account
+		AccountNumber string `json:"accountNumber"`
+	}
+
+	NameLookupResponse struct {
+		Name          string `json:"name"`
+		Message       string `json:"message"`
+		Success       bool   `json:"success"`
+		AccountNumber string `json:"accountNumber"`
+		BankName      string `json:"bankName"`
 	}
 )
