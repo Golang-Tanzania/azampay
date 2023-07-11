@@ -191,3 +191,62 @@ func (c *Client) SendWithStringReturns(req *http.Request) (string, error) {
 
 	return string(data), nil
 }
+
+func (c *Client) SendWithAuthQueriesParams(req *http.Request, queries TransactionStatusQueries, v interface{}) error {
+
+	req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", c.Token.Data.AccessToken))
+
+	req.Header.Set("X-API-Key", c.TokenKey)
+
+	return c.SendWithQueriesParams(req, queries, v)
+}
+
+func (c *Client) SendWithQueriesParams(req *http.Request, queries TransactionStatusQueries, v interface{}) error {
+	var (
+		err  error
+		resp *http.Response
+		data []byte
+	)
+
+	// Set default headers
+	req.Header.Set("Accept", "application/json")
+
+	// Default values for headers
+	if req.Header.Get("Content-type") == "" {
+		req.Header.Set("Content-type", "application/json")
+	}
+
+	qv := req.URL.Query()
+
+	qv.Add("bankName", queries.BankName)
+	qv.Add("pgReferenceId", queries.PgReferenceID)
+
+	resp, err = c.Client.Do(req)
+
+	if err != nil {
+		return err
+	}
+	defer func(Body io.ReadCloser) error {
+		return Body.Close()
+	}(resp.Body)
+
+	if resp.StatusCode == 500 {
+		return errors.New("internal Server Error")
+
+	}
+
+	if resp.StatusCode < 200 || resp.StatusCode > 299 {
+
+		data, err = io.ReadAll(resp.Body)
+
+		if err == nil && len(data) > 0 {
+
+			return fmt.Errorf("error , status code: %d, %s", resp.StatusCode, string(data))
+
+		}
+
+		return fmt.Errorf("error reading body error , status code: %d", resp.StatusCode)
+	}
+
+	return json.NewDecoder(resp.Body).Decode(v)
+}

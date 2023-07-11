@@ -15,6 +15,8 @@ const (
 	PostCheckOutEndPoint = "/api/v1/Partner/PostCheckout"
 
 	NameLookupEndPoint = "/azampay/namelookup"
+
+	TransactionalStatusEndpoint = "/azampay/gettransactionstatus"
 )
 
 type (
@@ -226,5 +228,21 @@ type (
 		Success       bool   `json:"success"`
 		AccountNumber string `json:"accountNumber"`
 		BankName      string `json:"bankName"`
+	}
+
+	TransactionStatusQueries struct {
+		// The name of the mobile network operator (MNO) used
+		// to make the disbursement request
+		BankName string `json:"bankName"`
+		// The transaction ID you received when making the
+		// disbursement request
+		PgReferenceID string `json:"pgReferenceId"`
+	}
+
+	TransactionStatusResponse struct {
+		Data       string `json:"data"`
+		Message    string `json:"message"`
+		Success    bool   `json:"success"`
+		StatusCode int    `json:"statusCode"`
 	}
 )
