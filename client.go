@@ -136,8 +136,8 @@ func (c *Client) Send(req *http.Request, v interface{}, e interface{}) error {
 		_, err := io.Copy(w, resp.Body)
 		return err
 	}
-
 	return json.NewDecoder(resp.Body).Decode(v)
+
 }
 
 // SendWithAuth makes a request to the API using clientID:secret basic auth
