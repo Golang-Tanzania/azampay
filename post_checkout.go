@@ -12,7 +12,7 @@ func (c *Client) PostCheckout(ctx context.Context, payload PostCheckoutPayload) 
 		return "", err
 	}
 
-	data, err := c.SendWithAuthMultiReturns(req)
+	data, err := c.SendWithAuthStringReturns(req)
 
 	if err != nil {
 		return "", err

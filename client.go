@@ -141,16 +141,16 @@ func (c *Client) Send(req *http.Request, v interface{}, e interface{}) error {
 }
 
 // SendWithAuth makes a request to the API using clientID:secret basic auth
-func (c *Client) SendWithAuthMultiReturns(req *http.Request) (string, error) {
+func (c *Client) SendWithAuthStringReturns(req *http.Request) (string, error) {
 
 	req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", c.Token.Data.AccessToken))
 
 	req.Header.Set("X-API-Key", c.TokenKey)
 
-	return c.SendMultiReturns(req)
+	return c.SendWithStringReturns(req)
 }
 
-func (c *Client) SendMultiReturns(req *http.Request) (string, error) {
+func (c *Client) SendWithStringReturns(req *http.Request) (string, error) {
 	var (
 		err  error
 		resp *http.Response
