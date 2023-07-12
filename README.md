@@ -1,9 +1,9 @@
 <h1 align="center">GO AZAM PAY</h1>
 
 <p align="center">
-<a href="https://github.com/Golang-Tanzania/GoAzam"><img src="https://img.shields.io/badge/Made%20with-Go-1f425f.svg"></a>
-<a href="https://github.com/Golang-Tanzania/GoAzam"><img src="https://img.shields.io/github/go-mod/go-version/gomods/athens.svg"></a>
-<a href="https://pkg.go.dev/github.com/Golang-Tanzania/GoAzam"><img src="https://img.shields.io/badge/godoc-reference-blue.svg"></a><br><br>
+<a href="https://github.com/Golang-Tanzania/azampay"><img src="https://img.shields.io/badge/Made%20with-Go-1f425f.svg"></a>
+<a href="https://github.com/Golang-Tanzania/azampay"><img src="https://img.shields.io/github/go-mod/go-version/gomods/athens.svg"></a>
+<a href="https://pkg.go.dev/github.com/Golang-Tanzania/azampay"><img src="https://img.shields.io/badge/godoc-reference-blue.svg"></a><br><br>
 A golang package to access the Azam Payment Gateway. Made with love for gophers ❤️.
 </p>
 
@@ -17,7 +17,7 @@ This is a Golang package which significantly simplifies access and integration t
 <img src="./assets/azampay-api-flow.svg">
 </p>
 
-## Features of GoAzam
+## Features of azampay
 
 - Make mobile network checkouts
 - Make bank checkouts 
@@ -25,7 +25,7 @@ This is a Golang package which significantly simplifies access and integration t
 - Return a list of registered partners of the provided merchant 
 - Create post checkout URLs for payments
 
-<img src="./assets/GoAzam.gif" align="center">
+<img src="./assets/azampay.gif" align="center">
 
 ## Pre-Requisites
 
@@ -39,7 +39,7 @@ This is a Golang package which significantly simplifies access and integration t
 
 Install the package with the `go get` command as shown below:
 ```sh 
-go get github.com/Golang-Tanzania/GoAzam@latest
+go get github.com/Golang-Tanzania/azampay@latest
 ```
 
 Then import it as follows:
@@ -47,7 +47,7 @@ Then import it as follows:
 package main 
 
 import (
-    "github.com/Golang-Tanzania/GoAzam"
+    "github.com/Golang-Tanzania/azampay"
 )
 ```
 
@@ -64,7 +64,7 @@ import (
 ```
 - Initiliaze a variable of type `APICONTEXT`:
 ```go
-var transactionTester GoAzam.APICONTEXT
+var transactionTester azampay.APICONTEXT
 ```
 - Load the keys with the `LoadKeys` method. This accepts the json file as a parameter and will return an error:
 ```go
@@ -91,14 +91,14 @@ The `MobileCheckout` method will return a value of type `MNOResponse` and an err
 ```go
 package main 
 import (
-	"github.com/Golang-Tanzania/GoAzam"
+	"github.com/Golang-Tanzania/azampay"
 	"fmt"
 )
 
 func main() {
 
 	// initialize
-	var transactionTester GoAzam.APICONTEXT
+	var transactionTester azampay.APICONTEXT
 
 	if err := transactionTester.LoadKeys("config.json"); err != nil {
 		fmt.Println(err)
@@ -110,7 +110,7 @@ func main() {
 	}
 
 	// example mobile checkout
-	var exampleMobileCheckout GoAzam.MNOPayload
+	var exampleMobileCheckout azampay.MNOPayload
 
 	exampleMobileCheckout.AccountNumber = "0700000000"
 	exampleMobileCheckout.Amount = "2000"
@@ -139,14 +139,14 @@ The `BankCheckout` method will return a value of type `BankCheckoutResponse` and
 ```go
 package main 
 import (
-	"github.com/Golang-Tanzania/GoAzam"
+	"github.com/Golang-Tanzania/azampay"
 	"fmt"
 )
 
 func main() {
 
 	// initialize
-	var transactionTester GoAzam.APICONTEXT
+	var transactionTester azampay.APICONTEXT
 
 	if err := transactionTester.LoadKeys("config.json"); err != nil {
 		fmt.Println(err)
@@ -157,7 +157,7 @@ func main() {
 		return
 	}
 	// example bank checkout
-	var exampleBankCheckout GoAzam.BankCheckoutPayload
+	var exampleBankCheckout azampay.BankCheckoutPayload
 
 	exampleBankCheckout.Amount = "10000"
 	exampleBankCheckout.CurrencyCode = "TZS"
@@ -183,20 +183,20 @@ func main() {
 
 ### Callback
 
-The link for this endpoint will be provided by GoAzam upon registering your app. In the meantime, you could use the provided server code found in the `server` folder.
+The link for this endpoint will be provided by azampay upon registering your app. In the meantime, you could use the provided server code found in the `server` folder.
 
 Initiliaza a variable of type `CallbackPayload` and fill in the necessary values. Then call the `Callback` method, providing the `CallbackPayload` and the absolute URL as parameters. The method will return a variable of type `CallbackResponse` or an `error`. Full example below:
 ```go
 package main 
 import (
-	"github.com/Golang-Tanzania/GoAzam"
+	"github.com/Golang-Tanzania/azampay"
 	"fmt"
 )
 
 func main() {
 
 	// initialize
-	var transactionTester GoAzam.APICONTEXT
+	var transactionTester azampay.APICONTEXT
 
 	if err := transactionTester.LoadKeys("config.json"); err != nil {
 		fmt.Println(err)
@@ -208,7 +208,7 @@ func main() {
 	}
 
 	// example Callback
-	var exampleCallback GoAzam.CallbackPayload
+	var exampleCallback azampay.CallbackPayload
 
 	exampleCallback.MSISDN = "0178334"
 	exampleCallback.Amount = "2000"
@@ -240,14 +240,14 @@ To get all available payment partners, call the `PaymentPartners` method as show
 ```go
 package main 
 import (
-	"github.com/Golang-Tanzania/GoAzam"
+	"github.com/Golang-Tanzania/azampay"
 	"fmt"
 )
 
 func main() {
 
 	// initialize
-	var transactionTester GoAzam.APICONTEXT
+	var transactionTester azampay.APICONTEXT
 
 	if err := transactionTester.LoadKeys("config.json"); err != nil {
 		fmt.Println(err)
@@ -280,14 +280,14 @@ To get a post checkout URL, first initialize a variable of type `PostCheckoutPay
 ```go
 package main 
 import (
-	"github.com/Golang-Tanzania/GoAzam"
+	"github.com/Golang-Tanzania/azampay"
 	"fmt"
 )
 
 func main() {
 
 	// initialize
-	var transactionTester GoAzam.APICONTEXT
+	var transactionTester azampay.APICONTEXT
 
 	if err := transactionTester.LoadKeys("config.json"); err != nil {
 		fmt.Println(err)
@@ -300,7 +300,7 @@ func main() {
 
 	// example Post checkout
 
-	var examplePostCheckout GoAzam.PostCheckoutPayload
+	var examplePostCheckout azampay.PostCheckoutPayload
 
 	examplePostCheckout.AppName = "example"
 	examplePostCheckout.Amount = "10000"
@@ -315,7 +315,7 @@ func main() {
 	examplePostCheckout.VendorID = "e9b57fab-1850-44d4-8499-71fd15c845a0"
 
     // Make a list of shopping items if any
-	shoppingList := []GoAzam.Item{
+	shoppingList := []azampay.Item{
 		{Name: "Mandazi"},
 		{Name: "Sambusa"},
 		{Name: "Mkate"},
@@ -343,7 +343,7 @@ If you notice any issues with the package kindly notify us as soon as possible.
 ## Credits
 
 - [Avicenna](https://github.com/AvicennaJr)
-- All other [contributors](https://github.com/Golang-Tanzania/GoAzam/graphs/contributors)
+- All other [contributors](https://github.com/Golang-Tanzania/azampay/graphs/contributors)
 
 
 ## License

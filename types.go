@@ -1,4 +1,4 @@
-package GoAzam
+package azampay
 
 import (
 	"net/http"
