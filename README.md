@@ -24,6 +24,9 @@ This is a Golang package which significantly simplifies access and integration t
 - Manage callback URLs after a transaction is confirmed
 - Return a list of registered partners of the provided merchant 
 - Create post checkout URLs for payments
+- Transfer of money from other countries to Tanzania
+- Lookup the name associated with a bank account or Mobile Money account
+- Retrieve the status of a disbursement transaction made through AzamPay
 
 <img src="./assets/azampay.gif" align="center">
 
