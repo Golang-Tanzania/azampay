@@ -1,4 +1,4 @@
-<h1 align="center">GO AZAM PAY</h1>
+<h1 align="center">AZAMPAY</h1>
 
 <p align="center">
 <a href="https://github.com/Golang-Tanzania/azampay"><img src="https://img.shields.io/badge/Made%20with-Go-1f425f.svg"></a>
@@ -31,7 +31,7 @@ This is a Golang package which significantly simplifies access and integration t
 
 - Sign up for a developer account with [Azampay](https://developers.azampay.co.tz/)
 - Register an app to get credentials
-- Use the provided credentials to access the API. Save these credentials in a `config.json` file.
+- Use the provided credentials to access the API. 
 
 ## Installation
 
@@ -53,288 +53,211 @@ import (
 
 ## Authentication
 
-- To get authenticated save your files in a `config.json` file as below:
-```json
-{
-	"appName": "",
-	"clientId": "",
-	"clientSecret": "",
-	"token": ""
-}
-```
-- Initiliaze a variable of type `APICONTEXT`:
+### Token Generation
+
 ```go
-var transactionTester azampay.APICONTEXT
-```
-- Load the keys with the `LoadKeys` method. This accepts the json file as a parameter and will return an error:
-```go
-if err := transactionTester.LoadKeys("config.json"); err != nil {
-	fmt.Println(err)
-	return
+appName := "Your app name from azamm pay"
+clientId := "Client id from azam pay"
+clientSecret := "Client secret from azam pay"
+tokenKey := "Your token from azam pay"
+client, err := azampay.NewClient(appName, clientId, clientSecret, tokenKey)
+
+if err != nil {
+		panic(err)
 }
-```
-- The generate a session with the `GenerateSession` method, passing `sandbox` or `production` as a parameter. This will get the `Bearer token` or return an error:
-```go
-if err := transactionTester.GenerateSession("sandbox"); err != nil {
-    fmt.Println(err)
-    return
-}
+
+ctx := context.Background()
+_, err = client.GetAccessToken(ctx)
+
+if err != nil {
+		fmt.Println(err)
+	}
+
 ```
 
 ## Transactions 
 
 ### MNO Checkout 
-To perform an MNO Checkout, first create a variable of type `MNOPayload` and fill in its values. Then call the `MobileCheckout` method with the `MNOPayload` as its parameter.
 
-The `MobileCheckout` method will return a value of type `MNOResponse` and an error if any. Any desired value can be accessed with the returned value. Below is a full example:
 
 ```go
-package main 
-import (
-	"github.com/Golang-Tanzania/azampay"
-	"fmt"
-)
-
-func main() {
-
-	// initialize
-	var transactionTester azampay.APICONTEXT
-
-	if err := transactionTester.LoadKeys("config.json"); err != nil {
-		fmt.Println(err)
+// example MNO checkout
+	exampleMNOCheckout := azampay.MnoPayload{
+		AccountNumber: "0654001122",
+		Amount:        "2000",
+		Currency:      "TZS",
+		ExternalID:    "123",
+		Provider:      "Tigo",
 	}
 
-	if err := transactionTester.GenerateSession("sandbox"); err != nil {
-		fmt.Println(err)
-		return
-	}
-
-	// example mobile checkout
-	var exampleMobileCheckout azampay.MNOPayload
-
-	exampleMobileCheckout.AccountNumber = "0700000000"
-	exampleMobileCheckout.Amount = "2000"
-	exampleMobileCheckout.Currency = "TZS"
-	exampleMobileCheckout.ExternalID = "123"
-	exampleMobileCheckout.Provider = transactionTester.GetProvider(exampleMobileCheckout.AccountNumber)
-	
-
-	mnoResult, err := transactionTester.MobileCheckout(exampleMobileCheckout)
+	res, err := client.MnoCheckout(ctx, exampleMNOCheckout)
 
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
 
-	fmt.Println(mnoResult.Success)
-	fmt.Println(mnoResult.Message)
-	fmt.Println(mnoResult.TransactionID)
-}
+	fmt.Println(res)
+
 ```
 
 ### Bank Checkout
-To perform an Bank Checkout, first create a variable of type `BankCheckoutPayload` and fill in its values. Then call the `BankCheckout` method with the `BankCheckoutPayload` as its parameter.
 
-The `BankCheckout` method will return a value of type `BankCheckoutResponse` and an error if any. Any desired value can be accessed with the returned value. Below is a full example:
 ```go
-package main 
-import (
-	"github.com/Golang-Tanzania/azampay"
-	"fmt"
-)
-
-func main() {
-
-	// initialize
-	var transactionTester azampay.APICONTEXT
-
-	if err := transactionTester.LoadKeys("config.json"); err != nil {
-		fmt.Println(err)
+// example Bank checkout
+exampleBankCheckout := azampay.BankCheckoutPayload{
+		Amount:                "10000",
+		CurrencyCode:          "TZS",
+		MerchantAccountNumber: "123321",
+		MerchantMobileNumber:  "0700000000",
+		MerchantName:          "somebody",
+		OTP:                   "1234",
+		Provider:              "CRDB",
+		ReferenceID:           "123",
 	}
 
-	if err := transactionTester.GenerateSession("sandbox"); err != nil {
-		fmt.Println(err)
-		return
-	}
-	// example bank checkout
-	var exampleBankCheckout azampay.BankCheckoutPayload
-
-	exampleBankCheckout.Amount = "10000"
-	exampleBankCheckout.CurrencyCode = "TZS"
-	exampleBankCheckout.MerchantAccountNumber = "123321"
-	exampleBankCheckout.MerchantMobileNumber = "0700000000"
-	exampleBankCheckout.MerchantName = "somebody"
-	exampleBankCheckout.OTP = "1234"
-	exampleBankCheckout.Provider = "CRDB"
-	exampleBankCheckout.ReferenceID = "123"
-
-	bankResult, err := transactionTester.BankCheckout(exampleBankCheckout)
+	res, err := client.BankCheckout(ctx, exampleBankCheckout)
 
 	if err != nil {
 		fmt.Println(err)
-		return
 	}
 
-	fmt.Println(bankResult.Success)
-	fmt.Println(bankResult.Message)
-	fmt.Println(bankResult.Data.Properties.ReferenceID)
-}
+	fmt.Println(res)
+
 ```
 
-### Callback
-
-The link for this endpoint will be provided by azampay upon registering your app. In the meantime, you could use the provided server code found in the `server` folder.
-
-Initiliaza a variable of type `CallbackPayload` and fill in the necessary values. Then call the `Callback` method, providing the `CallbackPayload` and the absolute URL as parameters. The method will return a variable of type `CallbackResponse` or an `error`. Full example below:
-```go
-package main 
-import (
-	"github.com/Golang-Tanzania/azampay"
-	"fmt"
-)
-
-func main() {
-
-	// initialize
-	var transactionTester azampay.APICONTEXT
-
-	if err := transactionTester.LoadKeys("config.json"); err != nil {
-		fmt.Println(err)
-	}
-
-	if err := transactionTester.GenerateSession("sandbox"); err != nil {
-		fmt.Println(err)
-		return
-	}
-
-	// example Callback
-	var exampleCallback azampay.CallbackPayload
-
-	exampleCallback.MSISDN = "0178334"
-	exampleCallback.Amount = "2000"
-	exampleCallback.Message = "testing callback"
-	exampleCallback.UtilityRef = "1282-123"
-	exampleCallback.Operator = "Airtel"
-	exampleCallback.Reference = "123-123"
-	exampleCallback.TransactionStatus = "success"
-	exampleCallback.SubmerchantAcc = "01723113"
-
-	// This domain should be the absolute path to your callback URL.
-	// You can use the example server in this repository to test this endpoint.
-	url := "http://localhost:8000/api/v1/Checkout/Callback"
-	callbackResult, err := transactionTester.Callback(exampleCallback, url)
-
-	if err != nil {
-		fmt.Println(err)
-		return
-	}
-
-	fmt.Println(callbackResult.Success)
-}
-
-```
 
 ### Payment Partners 
 
-To get all available payment partners, call the `PaymentPartners` method as shown below. It will return a value of type `PaymentPatners` or an error:
 ```go
-package main 
-import (
-	"github.com/Golang-Tanzania/azampay"
-	"fmt"
-)
 
-func main() {
+// example get registered partners of the provided merchant 
+rp, err := client.PaymentPartners(ctx)
 
-	// initialize
-	var transactionTester azampay.APICONTEXT
-
-	if err := transactionTester.LoadKeys("config.json"); err != nil {
-		fmt.Println(err)
-	}
-
-	if err := transactionTester.GenerateSession("sandbox"); err != nil {
-		fmt.Println(err)
-		return
-	}
-
-	// example get Payment Partners
-
-	examplePaymentPartners, err := transactionTester.PaymentPartners()
-
-	if err != nil {
-		fmt.Println(err)
-		return
-	}
-
-	for _, paymentpartner := range examplePaymentPartners {
-		fmt.Println(paymentpartner.PartnerName)
-	}
+if err != nil {
+	fmt.Println(err)
 }
+
+fmt.Println(res)
+
 ```
 
 ### Post Checkout 
 
-To get a post checkout URL, first initialize a variable of type `PostCheckoutPayload`. Then call the `PostCheckout` method providing the payload as a parameter. The method will return the checkout URL or an error. Full example below:
-
 ```go
-package main 
-import (
-	"github.com/Golang-Tanzania/azampay"
-	"fmt"
-)
-
-func main() {
-
-	// initialize
-	var transactionTester azampay.APICONTEXT
-
-	if err := transactionTester.LoadKeys("config.json"); err != nil {
-		fmt.Println(err)
+// example Post Checkout 
+payload := azampay.PostCheckoutPayload{
+		AppName:            "example",
+		Amount:             "10000",
+		ClientID:           "1234",
+		Currency:           "TZS",
+		ExternalID:         "30characterslong",
+		Language:           "SW",
+		RedirectFailURL:    "yoururl",
+		RedirectSuccessURL: "yourrul",
+		RequestOrigin:      "yourorigin",
+		VendorName:         "VendorName",
+		VendorID:           "e9b57fab-1850-44d4-8499-71fd15c845a0",
 	}
 
-	if err := transactionTester.GenerateSession("sandbox"); err != nil {
-		fmt.Println(err)
-		return
-	}
-
-	// example Post checkout
-
-	var examplePostCheckout azampay.PostCheckoutPayload
-
-	examplePostCheckout.AppName = "example"
-	examplePostCheckout.Amount = "10000"
-	examplePostCheckout.ClientID = "1234"
-	examplePostCheckout.Currency = "TZS"
-	examplePostCheckout.ExternalID = "30characterslong"
-	examplePostCheckout.Language = "SW"
-	examplePostCheckout.RedirectFailURL = "yoururl"
-	examplePostCheckout.RedirectSuccessURL = "yourrul"
-	examplePostCheckout.RequestOrigin = "yourorigin"
-	examplePostCheckout.VendorName = "VendorName"
-	examplePostCheckout.VendorID = "e9b57fab-1850-44d4-8499-71fd15c845a0"
-
-    // Make a list of shopping items if any
 	shoppingList := []azampay.Item{
 		{Name: "Mandazi"},
 		{Name: "Sambusa"},
 		{Name: "Mkate"},
 	}
+    payload.Cart.Items = shoppingList
 	
-    // Append shopping list to cart
-    examplePostCheckout.Cart.Items = append(examplePostCheckout.Cart.Items, shoppingList...)
-
-	postCheckoutURL, err := transactionTester.PostCheckout(examplePostCheckout)
+	res ,err := client.PostCheckout(ctx,payload) 
 
 	if err != nil {
-		fmt.Println(err)
-		return
+		fmt.Println(res)
 	}
 
-	fmt.Println(postCheckoutURL)
-}
+	fmt.Println(res)
 
 ```
+
+### Disburse
+```go 
+
+//example Transfer of money from other countries to Tanzania
+disbursePayload := azampay.DisbursePayload{
+		Source: azampay.Source{
+			CountryCode:   "US",
+			FullName:      "John Doe",
+			BankName:      "Bank of America",
+			AccountNumber: "123456789",
+			Currency:      "USD",
+		},
+		Destination: azampay.Destination{
+			CountryCode:   "TZ",
+			FullName:      "Jane Doe",
+			BankName:      "Azania Bank",
+			AccountNumber: "987654321",
+			Currency:      "TZS",
+		},
+		TransferDetails: azampay.TransferDetails{
+			Type:   "SWIFT",
+			Amount: 5000,
+			Date:   time.Date(2023, 7, 11, 0, 0, 0, 0, time.UTC),
+		},
+		ExternalReferenceID: "123",
+		Remarks:             "Payment for goods",
+	}
+
+
+
+	res ,err := client.Disburse(ctx, disbursePayload)
+	if err != nil {
+
+		fmt.Println(err)
+	}
+
+	fmt.Println(res)
+
+
+```
+### Name Lookup
+
+```go
+
+// example to lookup the name associated with a bank account or Mobile Money account.
+res, err := client.NameLookUp(ctx, azampay.NameLookupPayload{
+		AccountNumber: "0654000000",
+		BankName:      "Tigo",
+	})
+
+	if err != nil {
+       fmt.Println(err)
+
+	}
+
+fmt.Println(res)
+
+```
+
+
+### Get Transaction Status
+
+```go
+
+// example to retrieve the status of a disbursement transaction made through AzamPay.
+queries := azampay.TransactionStatusQueries{
+
+    BankName : "YOUR_MNO_NAME_HERE"
+    PgReferenceID : "YOUR_TRANSACTION_ID_HERE"
+}
+res, err := client.TransactionalStatus(ctx,queries )
+
+if err != nil {
+	fmt.Println(err)
+}
+
+fmt.Println(res)
+
+```
+
+
 
 ## Issues
 
@@ -342,6 +265,7 @@ If you notice any issues with the package kindly notify us as soon as possible.
 
 ## Credits
 
+- [Hopertz](https://github.com/Hopertz)
 - [Avicenna](https://github.com/AvicennaJr)
 - All other [contributors](https://github.com/Golang-Tanzania/azampay/graphs/contributors)
 

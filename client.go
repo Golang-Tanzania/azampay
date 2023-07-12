@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+	"time"
 )
 
 // NewClient returns new Client struct
@@ -46,7 +47,7 @@ func (c *Client) GetAccessToken(ctx context.Context) (*TokenResponse, error) {
 	err = c.Send(req, response, errResponse)
 
 	// Set Token for current Client
-	if response.Data.AccessToken != "" {
+	if response.Data.AccessToken != nil && err == nil {
 		c.Token = response
 		return response, err
 
@@ -76,8 +77,23 @@ func (c *Client) NewRequest(ctx context.Context, method, url string, payload int
 // SendWithAuth makes a request to the API using clientID:secret basic auth
 func (c *Client) SendWithAuth(req *http.Request, v interface{}, e interface{}) error {
 
-	req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", c.Token.Data.AccessToken))
-	req.Header.Set("X-API-Key", c.TokenKey)
+	c.mu.Lock()
+
+	if c.Token.Data.AccessToken != nil {
+		if time.Until(c.Token.Data.Expire) < RequestNewTokenBeforeExpiresIn {
+			// c.Token will be updated in GetAccessToken call
+			if _, err := c.GetAccessToken(req.Context()); err != nil {
+				// c.Unlock()
+				c.mu.Unlock()
+				return err
+			}
+		}
+
+		req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", *c.Token.Data.AccessToken))
+		req.Header.Set("X-API-Key", c.TokenKey)
+	}
+
+	c.mu.Unlock()
 
 	return c.Send(req, v, e)
 }
@@ -142,10 +158,23 @@ func (c *Client) Send(req *http.Request, v interface{}, e interface{}) error {
 
 // SendWithAuth makes a request to the API using clientID:secret basic auth
 func (c *Client) SendWithAuthStringReturns(req *http.Request) (string, error) {
+	c.mu.Lock()
 
-	req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", c.Token.Data.AccessToken))
+	if c.Token.Data.AccessToken != nil {
+		if time.Until(c.Token.Data.Expire) < RequestNewTokenBeforeExpiresIn {
+			// c.Token will be updated in GetAccessToken call
+			if _, err := c.GetAccessToken(req.Context()); err != nil {
+				// c.Unlock()
+				c.mu.Unlock()
+				return "", err
+			}
+		}
 
-	req.Header.Set("X-API-Key", c.TokenKey)
+		req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", *c.Token.Data.AccessToken))
+		req.Header.Set("X-API-Key", c.TokenKey)
+	}
+
+	c.mu.Unlock()
 
 	return c.SendWithStringReturns(req)
 }
@@ -194,9 +223,23 @@ func (c *Client) SendWithStringReturns(req *http.Request) (string, error) {
 
 func (c *Client) SendWithAuthQueriesParams(req *http.Request, queries TransactionStatusQueries, v interface{}) error {
 
-	req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", c.Token.Data.AccessToken))
+	c.mu.Lock()
 
-	req.Header.Set("X-API-Key", c.TokenKey)
+	if c.Token.Data.AccessToken != nil {
+		if time.Until(c.Token.Data.Expire) < RequestNewTokenBeforeExpiresIn {
+			// c.Token will be updated in GetAccessToken call
+			if _, err := c.GetAccessToken(req.Context()); err != nil {
+				// c.Unlock()
+				c.mu.Unlock()
+				return err
+			}
+		}
+
+		req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", *c.Token.Data.AccessToken))
+		req.Header.Set("X-API-Key", c.TokenKey)
+	}
+
+	c.mu.Unlock()
 
 	return c.SendWithQueriesParams(req, queries, v)
 }

@@ -7,20 +7,21 @@ import (
 )
 
 const (
-	APIBase                     = "https://sandbox.azampay.co.tz"
-	AuthenicateUrl              = "https://authenticator-sandbox.azampay.co.tz/AppRegistration/GenerateToken"
-	MnoCheckoutEndPoint         = "/azampay/mno/checkout"
-	BankCheckoutEndPoint        = "/azampay/bank/checkout"
-	PayPartnersEndPoint         = "/api/v1/Partner/GetPaymentPartners"
-	PostCheckOutEndPoint        = "/api/v1/Partner/PostCheckout"
-	NameLookupEndPoint          = "/azampay/namelookup"
-	TransactionalStatusEndpoint = "/azampay/gettransactionstatus"
-	DisburseEndpoint            = "/azampay/createtransfer"
+	APIBase                        = "https://sandbox.azampay.co.tz"
+	AuthenicateUrl                 = "https://authenticator-sandbox.azampay.co.tz/AppRegistration/GenerateToken"
+	MnoCheckoutEndPoint            = "/azampay/mno/checkout"
+	BankCheckoutEndPoint           = "/azampay/bank/checkout"
+	PayPartnersEndPoint            = "/api/v1/Partner/GetPaymentPartners"
+	PostCheckOutEndPoint           = "/api/v1/Partner/PostCheckout"
+	NameLookupEndPoint             = "/azampay/namelookup"
+	TransactionalStatusEndpoint    = "/azampay/gettransactionstatus"
+	DisburseEndpoint               = "/azampay/createtransfer"
+	RequestNewTokenBeforeExpiresIn = time.Duration(60) * time.Second
 )
 
 type (
 	TokenData struct {
-		AccessToken string    `json:"accessToken"`
+		AccessToken *string   `json:"accessToken"`
 		Expire      time.Time `json:"expire"`
 	}
 
