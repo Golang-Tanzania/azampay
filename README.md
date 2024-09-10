@@ -4,14 +4,14 @@
 <a href="https://github.com/Golang-Tanzania/azampay"><img src="https://img.shields.io/badge/Made%20with-Go-1f425f.svg"></a>
 <a href="https://github.com/Golang-Tanzania/azampay"><img src="https://img.shields.io/github/go-mod/go-version/gomods/athens.svg"></a>
 <a href="https://pkg.go.dev/github.com/Golang-Tanzania/azampay"><img src="https://img.shields.io/badge/godoc-reference-blue.svg"></a><br><br>
-A golang package to access the Azam Payment Gateway. Made with love for gophers ❤️.
+A golang client to access the Azam Payment Gateway. Made with love for gophers ❤️.
 </p>
 
 ## Introduction
 
 [AzamPay](https://developerdocs.azampay.co.tz/redoc) is specialized in the development of end-to-end online payment management solutions for companies operating in East Africa. They provide an API which allows developers to integrate their system's to Azampay's gateway.
 
-This is a Golang package which significantly simplifies access and integration to Azampay's gateway.
+This is a Golang client which significantly simplifies access and integration to Azampay's gateway.
 
 <p align="center">
 <img src="./assets/azampay-api-flow.svg">
